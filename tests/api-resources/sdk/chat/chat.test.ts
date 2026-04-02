@@ -12,7 +12,7 @@ describe('resource chat', () => {
   // Mock server tests are disabled
   test.skip('sendMessage: only required params', async () => {
     const responsePromise = client.sdk.chat.sendMessage({
-      message: 'What is the deadline field on page 2 of the form?',
+      message: 'What is the deadline field on page 2?',
       session_id: 'clx9f2k3n0000abc123xyz',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -27,7 +27,7 @@ describe('resource chat', () => {
   // Mock server tests are disabled
   test.skip('sendMessage: required and optional params', async () => {
     const response = await client.sdk.chat.sendMessage({
-      message: 'What is the deadline field on page 2 of the form?',
+      message: 'What is the deadline field on page 2?',
       session_id: 'clx9f2k3n0000abc123xyz',
     });
   });
