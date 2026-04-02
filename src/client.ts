@@ -34,27 +34,19 @@ import { isEmptyObj } from './internal/utils/values';
 
 export interface ClientOptions {
   /**
-   * Override the default API base URL. Useful for local development or pointing to a staging environment. Example: http://localhost:3000
-   *
-   */
-  baseURL?: string | null | undefined;
-
-  /**
-   * Your SDK API key — use sk_live_xxx for server-side calls, pk_live_xxx for client-side. Obtain via developers.apiKeys.create() after registering and logging in.
-   *
+   * SDK API key — enter your sk_live_xxx or pk_live_xxx key (without the Bearer prefix)
    */
   apiKey?: string | null | undefined;
 
   /**
-   * Short-lived JWT for managing API keys. Obtain from developers.login(). Only needed for developers.apiKeys.create/list/delete/rotate — not for SDK API calls.
-   *
+   * Developer dashboard JWT — obtain from POST /v1/developers/login
    */
   developerJwt?: string | null | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['ENGINEERSMIND_BASE_URL'].
+   * Defaults to process.env['PDFFILLR_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -108,7 +100,7 @@ export interface ClientOptions {
   /**
    * Set the log level.
    *
-   * Defaults to process.env['ENGINEERSMIND_LOG'] or 'warn' if it isn't set.
+   * Defaults to process.env['PDFFILLR_LOG'] or 'warn' if it isn't set.
    */
   logLevel?: LogLevel | undefined;
 
@@ -121,10 +113,9 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Engineersmind API.
+ * API Client for interfacing with the Pdffillr API.
  */
-export class Engineersmind {
-  baseURL: string | null;
+export class Pdffillr {
   apiKey: string | null;
   developerJwt: string | null;
 
@@ -141,12 +132,11 @@ export class Engineersmind {
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Engineersmind API.
+   * API Client for interfacing with the Pdffillr API.
    *
-   * @param {string | null | undefined} [opts.baseURL=process.env['AUTOFILLER_BASE_URL'] ?? null]
-   * @param {string | null | undefined} [opts.apiKey=process.env['AUTOFILLER_API_KEY'] ?? null]
-   * @param {string | null | undefined} [opts.developerJwt=process.env['AUTOFILLER_DEVELOPER_JWT'] ?? null]
-   * @param {string} [opts.baseURL=process.env['ENGINEERSMIND_BASE_URL'] ?? https://dev-autofiller-backend.engineersmind.dev] - Override the default base URL for the API.
+   * @param {string | null | undefined} [opts.apiKey=process.env['PDFFILLR_API_KEY'] ?? null]
+   * @param {string | null | undefined} [opts.developerJwt=process.env['PDFFILLR_DEVELOPER_JWT'] ?? null]
+   * @param {string} [opts.baseURL=process.env['PDFFILLR_BASE_URL'] ?? https://dev-autofiller-backend.engineersmind.dev] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -155,14 +145,12 @@ export class Engineersmind {
    * @param {Record<string, string | undefined>} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    baseURL = readEnv('ENGINEERSMIND_BASE_URL'),
-    baseURL = readEnv('AUTOFILLER_BASE_URL') ?? null,
-    apiKey = readEnv('AUTOFILLER_API_KEY') ?? null,
-    developerJwt = readEnv('AUTOFILLER_DEVELOPER_JWT') ?? null,
+    baseURL = readEnv('PDFFILLR_BASE_URL'),
+    apiKey = readEnv('PDFFILLR_API_KEY') ?? null,
+    developerJwt = readEnv('PDFFILLR_DEVELOPER_JWT') ?? null,
     ...opts
   }: ClientOptions = {}) {
     const options: ClientOptions = {
-      baseURL,
       apiKey,
       developerJwt,
       ...opts,
@@ -170,14 +158,14 @@ export class Engineersmind {
     };
 
     this.baseURL = options.baseURL!;
-    this.timeout = options.timeout ?? Engineersmind.DEFAULT_TIMEOUT /* 1 minute */;
+    this.timeout = options.timeout ?? Pdffillr.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
     this.logLevel = defaultLogLevel;
     this.logLevel =
       parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
-      parseLogLevel(readEnv('ENGINEERSMIND_LOG'), "process.env['ENGINEERSMIND_LOG']", this) ??
+      parseLogLevel(readEnv('PDFFILLR_LOG'), "process.env['PDFFILLR_LOG']", this) ??
       defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;
@@ -186,7 +174,6 @@ export class Engineersmind {
 
     this._options = options;
 
-    this.baseURL = baseURL;
     this.apiKey = apiKey;
     this.developerJwt = developerJwt;
   }
@@ -204,7 +191,6 @@ export class Engineersmind {
       logLevel: this.logLevel,
       fetch: this.fetch,
       fetchOptions: this.fetchOptions,
-      baseURL: this.baseURL,
       apiKey: this.apiKey,
       developerJwt: this.developerJwt,
       ...options,
@@ -755,10 +741,10 @@ export class Engineersmind {
     }
   }
 
-  static Engineersmind = this;
+  static Pdffillr = this;
   static DEFAULT_TIMEOUT = 60000; // 1 minute
 
-  static EngineersmindError = Errors.EngineersmindError;
+  static PdffillrError = Errors.PdffillrError;
   static APIError = Errors.APIError;
   static APIConnectionError = Errors.APIConnectionError;
   static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
@@ -775,13 +761,16 @@ export class Engineersmind {
   static toFile = Uploads.toFile;
 
   sdk: API.SDK = new API.SDK(this);
+  /**
+   * Register an account, log in, and manage API keys. Start here to get your sk_live_xxx secret key.
+   */
   developers: API.Developers = new API.Developers(this);
 }
 
-Engineersmind.SDK = SDK;
-Engineersmind.Developers = Developers;
+Pdffillr.SDK = SDK;
+Pdffillr.Developers = Developers;
 
-export declare namespace Engineersmind {
+export declare namespace Pdffillr {
   export type RequestOptions = Opts.RequestOptions;
 
   export { SDK as SDK };

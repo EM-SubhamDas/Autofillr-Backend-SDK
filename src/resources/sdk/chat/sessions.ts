@@ -6,16 +6,13 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
+/**
+ * Create AI chat sessions, exchange messages, attach documents, and trigger fill from session output.
+ */
 export class Sessions extends APIResource {
   /**
-   * Opens a new AI chat session scoped to your developer account. A session is a
-   * persistent conversation context — messages sent within it are remembered by the
-   * AI. Optionally attach a document to the session to let the AI answer questions
-   * about its content.
-   *
-   * Sessions remain active until explicitly ended via
-   * `POST /v1/sdk/chat/sessions/{sessionId}/end`. An active session can accumulate
-   * multiple messages and document attachments.
+   * Opens a new AI chat session. Returns `session_id` used in all subsequent chat
+   * calls.
    *
    * @example
    * ```ts
@@ -32,9 +29,8 @@ export class Sessions extends APIResource {
   }
 
   /**
-   * Returns all chat sessions created under your developer account, ordered by
-   * creation date descending. Each session includes its `session_id`, title, status
-   * (`active` or `ended`), message count, and timestamps.
+   * Returns all sessions ordered by creation date descending with `session_id`,
+   * title, status, and message count.
    *
    * @example
    * ```ts
@@ -50,13 +46,8 @@ export class Sessions extends APIResource {
   }
 
   /**
-   * Attaches a previously uploaded document to a chat session. Once attached, the AI
-   * can reference the document's content when answering questions in subsequent
-   * messages.
-   *
-   * The document must have been uploaded via `POST /v1/sdk/docs/upload` first. You
-   * can attach multiple documents to a single session by calling this endpoint
-   * multiple times.
+   * Attaches an uploaded document to a session. The AI uses it as context for all
+   * subsequent messages. Upload the document via `POST /v1/sdk/docs/upload` first.
    *
    * @example
    * ```ts
@@ -79,9 +70,8 @@ export class Sessions extends APIResource {
   }
 
   /**
-   * Marks a chat session as ended. Ended sessions are read-only — you can still
-   * retrieve their message history but cannot send new messages. Ending a session
-   * frees up any active context resources held by the AI pipeline.
+   * Marks a session as ended. History remains readable but no new messages can be
+   * sent.
    *
    * @example
    * ```ts
@@ -97,23 +87,17 @@ export class Sessions extends APIResource {
   }
 
   /**
-   * Returns the message history for a specific chat session, paginated. Messages are
-   * returned in chronological order (oldest first). Each message includes its `role`
-   * (`user` or `assistant`), `content`, and `created_at` timestamp.
-   *
-   * Use `page` and `size` to paginate through long conversations. Default page size
-   * is 50, maximum is 100.
+   * Returns paginated message history in chronological order. Query params: `page`
+   * (0-based, default 0), `size` (1–100, default 50).
    *
    * @example
    * ```ts
-   * await client.sdk.chat.sessions.retrieveMessages(
-   *   'sessionId',
-   * );
+   * await client.sdk.chat.sessions.getMessages('sessionId');
    * ```
    */
-  retrieveMessages(
+  getMessages(
     sessionID: string,
-    query: SessionRetrieveMessagesParams | null | undefined = {},
+    query: SessionGetMessagesParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<void> {
     return this._client.get(path`/v1/sdk/chat/sessions/${sessionID}/messages`, {
@@ -123,42 +107,62 @@ export class Sessions extends APIResource {
       __security: { apiKeyAuth: true },
     });
   }
+
+  /**
+   * Queues a fill job using field values collected during this chat session.
+   * **Workflow:** (1) Upload PDF → `doc_id`. (2) Create session. (3) Attach PDF. (4)
+   * Chat with AI. (5) Call this endpoint with `pdf_doc_id`. (6) Poll
+   * `GET /v1/sdk/docs/{pdf_doc_id}/result` until `ready`. (7) Download.
+   *
+   * @example
+   * ```ts
+   * await client.sdk.chat.sessions.triggerFill('sessionId', {
+   *   pdf_doc_id: 17,
+   * });
+   * ```
+   */
+  triggerFill(sessionID: string, body: SessionTriggerFillParams, options?: RequestOptions): APIPromise<void> {
+    return this._client.post(path`/v1/sdk/chat/sessions/${sessionID}/fill`, {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+      __security: { apiKeyAuth: true },
+    });
+  }
 }
 
 export interface SessionCreateParams {
   /**
-   * A human-readable label for this chat session. Useful for identifying sessions in
-   * list views or logs. If omitted, the session will have no title.
+   * Human-readable label for this session.
    */
   title?: string;
 }
 
 export interface SessionAttachDocumentParams {
   /**
-   * The numeric `doc_id` of the document to attach to this session. The document
-   * must have been previously uploaded via `POST /v1/sdk/docs/upload`. Once
-   * attached, the AI will use the document as context for all subsequent messages in
-   * the session.
+   * `doc_id` from `POST /v1/sdk/docs/upload`.
    */
   doc_id: number;
 }
 
-export interface SessionRetrieveMessagesParams {
-  /**
-   * Zero-based page index. Defaults to `0`.
-   */
+export interface SessionGetMessagesParams {
   page?: number;
 
-  /**
-   * Number of messages per page (1–100). Defaults to `50`.
-   */
   size?: number;
+}
+
+export interface SessionTriggerFillParams {
+  /**
+   * `doc_id` of the empty PDF to fill.
+   */
+  pdf_doc_id: number;
 }
 
 export declare namespace Sessions {
   export {
     type SessionCreateParams as SessionCreateParams,
     type SessionAttachDocumentParams as SessionAttachDocumentParams,
-    type SessionRetrieveMessagesParams as SessionRetrieveMessagesParams,
+    type SessionGetMessagesParams as SessionGetMessagesParams,
+    type SessionTriggerFillParams as SessionTriggerFillParams,
   };
 }
