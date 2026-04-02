@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.3.0 (2026-04-02)
+
+Full Changelog: [v0.2.0...v0.3.0](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/compare/v0.2.0...v0.3.0)
+
+### Features
+
+* **api:** manual updates ([d81396f](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/d81396ff2362fab107f48aadbd4030d6a24e4ce5))
+* **api:** manual updates ([5f601ab](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/5f601ab59f2a3485bb8b05d2c4a3a2b976f61629))
+* **api:** manual updates ([c7bf6f9](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/c7bf6f9c977cb2227e2446108ebe375c2b031b81))
+* **api:** manual updates ([b2807a8](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/b2807a8003551800914e553a536aa2f9efca5812))
+* **api:** manual updates ([6c108c8](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/6c108c8c4d15924b30ce5dbb080bb9ec4899ff25))
+* **api:** manual updates ([424e177](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/424e177e0b196ad976993ddd3c23cb47375f814c))
+
+
+### Chores
+
+* update OpenAPI spec from Engineersmind/Autofiller-Backend@21e24b4 ([996cc67](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/996cc67cc8a1b8efd2b023c8dc5952e9408298b5))
+* update OpenAPI spec from Engineersmind/Autofiller-Backend@4825b2e ([3147d6b](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/3147d6bc1d45ecaf6ff282ded802c56fb47b5569))
+* update OpenAPI spec from Engineersmind/Autofiller-Backend@6db0007 ([4045a79](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/4045a79f1ffcb4e6f7c9a40ae10fb52d0ec3a899))
+* update OpenAPI spec from Engineersmind/Autofiller-Backend@bc98415 ([669f822](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/669f8228426a31de26aaf19858d5eca69fd2d967))
+* update SDK settings ([eb6f383](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/eb6f3832af2cbf9c6b9fe8099bcca0449111b12c))
+
 ## 0.2.0 (2026-04-02)
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/compare/v0.1.0...v0.2.0)
