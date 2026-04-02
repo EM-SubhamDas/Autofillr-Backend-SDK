@@ -1,5 +1,5 @@
-import { multipartFormRequestOptions, createForm } from 'autofillr-sdk/internal/uploads';
-import { toFile } from 'autofillr-sdk/core/uploads';
+import { multipartFormRequestOptions, createForm } from '@engineersmind/autofiller-sdk/internal/uploads';
+import { toFile } from '@engineersmind/autofiller-sdk/core/uploads';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {

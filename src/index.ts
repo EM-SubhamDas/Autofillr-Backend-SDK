@@ -1,12 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Autofillr as default } from './client';
+export { Engineersmind as default } from './client';
 
 export { type Uploadable, toFile } from './core/uploads';
 export { APIPromise } from './core/api-promise';
-export { Autofillr, type ClientOptions } from './client';
+export { Engineersmind, type ClientOptions } from './client';
 export {
-  AutofillrError,
+  EngineersmindError,
   APIError,
   APIConnectionError,
   APIConnectionTimeoutError,

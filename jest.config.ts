@@ -7,8 +7,8 @@ const config: JestConfigWithTsJest = {
     '^.+\\.(t|j)sx?$': ['@swc/jest', { sourceMaps: 'inline' }],
   },
   moduleNameMapper: {
-    '^autofillr-sdk$': '<rootDir>/src/index.ts',
-    '^autofillr-sdk/(.*)$': '<rootDir>/src/$1',
+    '^@engineersmind/autofiller-sdk$': '<rootDir>/src/index.ts',
+    '^@engineersmind/autofiller-sdk/(.*)$': '<rootDir>/src/$1',
   },
   modulePathIgnorePatterns: [
     '<rootDir>/ecosystem-tests/',

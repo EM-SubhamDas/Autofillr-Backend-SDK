@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIPromise } from 'autofillr-sdk/core/api-promise';
+import { APIPromise } from '@engineersmind/autofiller-sdk/core/api-promise';
 
 import util from 'node:util';
-import Autofillr from 'autofillr-sdk';
-import { APIUserAbortError } from 'autofillr-sdk';
+import Engineersmind from '@engineersmind/autofiller-sdk';
+import { APIUserAbortError } from '@engineersmind/autofiller-sdk';
 const defaultFetch = fetch;
 
 describe('instantiate client', () => {
@@ -20,12 +20,11 @@ describe('instantiate client', () => {
   });
 
   describe('defaultHeaders', () => {
-    const client = new Autofillr({
+    const client = new Engineersmind({
       baseURL: 'http://localhost:5000/',
       defaultHeaders: { 'X-My-Default-Header': '2' },
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
-      adminJwt: 'My Admin Jwt',
     });
 
     test('they are used in the request', async () => {
@@ -56,14 +55,14 @@ describe('instantiate client', () => {
 
     beforeEach(() => {
       process.env = { ...env };
-      process.env['AUTOFILLR_LOG'] = undefined;
+      process.env['ENGINEERSMIND_LOG'] = undefined;
     });
 
     afterEach(() => {
       process.env = env;
     });
 
-    const forceAPIResponseForClient = async (client: Autofillr) => {
+    const forceAPIResponseForClient = async (client: Engineersmind) => {
       await new APIPromise(
         client,
         Promise.resolve({
@@ -89,12 +88,11 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      const client = new Autofillr({
+      const client = new Engineersmind({
         logger: logger,
         logLevel: 'debug',
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
       });
 
       await forceAPIResponseForClient(client);
@@ -102,11 +100,7 @@ describe('instantiate client', () => {
     });
 
     test('default logLevel is warn', async () => {
-      const client = new Autofillr({
-        apiKey: 'My API Key',
-        developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
-      });
+      const client = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
       expect(client.logLevel).toBe('warn');
     });
 
@@ -119,12 +113,11 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      const client = new Autofillr({
+      const client = new Engineersmind({
         logger: logger,
         logLevel: 'info',
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
       });
 
       await forceAPIResponseForClient(client);
@@ -140,12 +133,11 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['AUTOFILLR_LOG'] = 'debug';
-      const client = new Autofillr({
+      process.env['ENGINEERSMIND_LOG'] = 'debug';
+      const client = new Engineersmind({
         logger: logger,
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
       });
       expect(client.logLevel).toBe('debug');
 
@@ -162,16 +154,15 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['AUTOFILLR_LOG'] = 'not a log level';
-      const client = new Autofillr({
+      process.env['ENGINEERSMIND_LOG'] = 'not a log level';
+      const client = new Engineersmind({
         logger: logger,
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
       });
       expect(client.logLevel).toBe('warn');
       expect(warnMock).toHaveBeenCalledWith(
-        'process.env[\'AUTOFILLR_LOG\'] was set to "not a log level", expected one of ["off","error","warn","info","debug"]',
+        'process.env[\'ENGINEERSMIND_LOG\'] was set to "not a log level", expected one of ["off","error","warn","info","debug"]',
       );
     });
 
@@ -184,13 +175,12 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['AUTOFILLR_LOG'] = 'debug';
-      const client = new Autofillr({
+      process.env['ENGINEERSMIND_LOG'] = 'debug';
+      const client = new Engineersmind({
         logger: logger,
         logLevel: 'off',
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
       });
 
       await forceAPIResponseForClient(client);
@@ -206,13 +196,12 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['AUTOFILLR_LOG'] = 'not a log level';
-      const client = new Autofillr({
+      process.env['ENGINEERSMIND_LOG'] = 'not a log level';
+      const client = new Engineersmind({
         logger: logger,
         logLevel: 'debug',
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
       });
       expect(client.logLevel).toBe('debug');
       expect(warnMock).not.toHaveBeenCalled();
@@ -221,45 +210,41 @@ describe('instantiate client', () => {
 
   describe('defaultQuery', () => {
     test('with null query params given', () => {
-      const client = new Autofillr({
+      const client = new Engineersmind({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo' },
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/foo?apiVersion=foo');
     });
 
     test('multiple default query params', () => {
-      const client = new Autofillr({
+      const client = new Engineersmind({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo', hello: 'world' },
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/foo?apiVersion=foo&hello=world');
     });
 
     test('overriding with `undefined`', () => {
-      const client = new Autofillr({
+      const client = new Engineersmind({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { hello: 'world' },
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
       });
       expect(client.buildURL('/foo', { hello: undefined })).toEqual('http://localhost:5000/foo');
     });
   });
 
   test('custom fetch', async () => {
-    const client = new Autofillr({
+    const client = new Engineersmind({
       baseURL: 'http://localhost:5000/',
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
-      adminJwt: 'My Admin Jwt',
       fetch: (url) => {
         return Promise.resolve(
           new Response(JSON.stringify({ url, custom: true }), {
@@ -275,21 +260,19 @@ describe('instantiate client', () => {
 
   test('explicit global fetch', async () => {
     // make sure the global fetch type is assignable to our Fetch type
-    const client = new Autofillr({
+    const client = new Engineersmind({
       baseURL: 'http://localhost:5000/',
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
-      adminJwt: 'My Admin Jwt',
       fetch: defaultFetch,
     });
   });
 
   test('custom signal', async () => {
-    const client = new Autofillr({
+    const client = new Engineersmind({
       baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
-      adminJwt: 'My Admin Jwt',
       fetch: (...args) => {
         return new Promise((resolve, reject) =>
           setTimeout(
@@ -319,11 +302,10 @@ describe('instantiate client', () => {
       return new Response(JSON.stringify({}), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Autofillr({
+    const client = new Engineersmind({
       baseURL: 'http://localhost:5000/',
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
-      adminJwt: 'My Admin Jwt',
       fetch: testFetch,
     });
 
@@ -333,85 +315,65 @@ describe('instantiate client', () => {
 
   describe('baseUrl', () => {
     test('trailing slash', () => {
-      const client = new Autofillr({
+      const client = new Engineersmind({
         baseURL: 'http://localhost:5000/custom/path/',
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/custom/path/foo');
     });
 
     test('no trailing slash', () => {
-      const client = new Autofillr({
+      const client = new Engineersmind({
         baseURL: 'http://localhost:5000/custom/path',
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/custom/path/foo');
     });
 
     afterEach(() => {
-      process.env['AUTOFILLR_BASE_URL'] = undefined;
+      process.env['ENGINEERSMIND_BASE_URL'] = undefined;
     });
 
     test('explicit option', () => {
-      const client = new Autofillr({
+      const client = new Engineersmind({
         baseURL: 'https://example.com',
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
       });
       expect(client.baseURL).toEqual('https://example.com');
     });
 
     test('env variable', () => {
-      process.env['AUTOFILLR_BASE_URL'] = 'https://example.com/from_env';
-      const client = new Autofillr({
-        apiKey: 'My API Key',
-        developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
-      });
+      process.env['ENGINEERSMIND_BASE_URL'] = 'https://example.com/from_env';
+      const client = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
       expect(client.baseURL).toEqual('https://example.com/from_env');
     });
 
     test('empty env variable', () => {
-      process.env['AUTOFILLR_BASE_URL'] = ''; // empty
-      const client = new Autofillr({
-        apiKey: 'My API Key',
-        developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
-      });
-      expect(client.baseURL).toEqual('https://api.example.com');
+      process.env['ENGINEERSMIND_BASE_URL'] = ''; // empty
+      const client = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
+      expect(client.baseURL).toEqual('https://dev-autofiller-backend.engineersmind.dev');
     });
 
     test('blank env variable', () => {
-      process.env['AUTOFILLR_BASE_URL'] = '  '; // blank
-      const client = new Autofillr({
-        apiKey: 'My API Key',
-        developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
-      });
-      expect(client.baseURL).toEqual('https://api.example.com');
+      process.env['ENGINEERSMIND_BASE_URL'] = '  '; // blank
+      const client = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
+      expect(client.baseURL).toEqual('https://dev-autofiller-backend.engineersmind.dev');
     });
 
     test('in request options', () => {
-      const client = new Autofillr({
-        apiKey: 'My API Key',
-        developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
-      });
+      const client = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
       expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
         'http://localhost:5000/option/foo',
       );
     });
 
     test('in request options overridden by client options', () => {
-      const client = new Autofillr({
+      const client = new Engineersmind({
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
         baseURL: 'http://localhost:5000/client',
       });
       expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
@@ -420,12 +382,8 @@ describe('instantiate client', () => {
     });
 
     test('in request options overridden by env variable', () => {
-      process.env['AUTOFILLR_BASE_URL'] = 'http://localhost:5000/env';
-      const client = new Autofillr({
-        apiKey: 'My API Key',
-        developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
-      });
+      process.env['ENGINEERSMIND_BASE_URL'] = 'http://localhost:5000/env';
+      const client = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
       expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
         'http://localhost:5000/env/foo',
       );
@@ -433,31 +391,25 @@ describe('instantiate client', () => {
   });
 
   test('maxRetries option is correctly set', () => {
-    const client = new Autofillr({
+    const client = new Engineersmind({
       maxRetries: 4,
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
-      adminJwt: 'My Admin Jwt',
     });
     expect(client.maxRetries).toEqual(4);
 
     // default
-    const client2 = new Autofillr({
-      apiKey: 'My API Key',
-      developerJwt: 'My Developer Jwt',
-      adminJwt: 'My Admin Jwt',
-    });
+    const client2 = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
     expect(client2.maxRetries).toEqual(2);
   });
 
   describe('withOptions', () => {
     test('creates a new client with overridden options', async () => {
-      const client = new Autofillr({
+      const client = new Engineersmind({
         baseURL: 'http://localhost:5000/',
         maxRetries: 3,
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
       });
 
       const newClient = client.withOptions({
@@ -479,13 +431,12 @@ describe('instantiate client', () => {
     });
 
     test('inherits options from the parent client', async () => {
-      const client = new Autofillr({
+      const client = new Engineersmind({
         baseURL: 'http://localhost:5000/',
         defaultHeaders: { 'X-Test-Header': 'test-value' },
         defaultQuery: { 'test-param': 'test-value' },
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
       });
 
       const newClient = client.withOptions({
@@ -500,12 +451,11 @@ describe('instantiate client', () => {
     });
 
     test('respects runtime property changes when creating new client', () => {
-      const client = new Autofillr({
+      const client = new Engineersmind({
         baseURL: 'http://localhost:5000/',
         timeout: 1000,
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
-        adminJwt: 'My Admin Jwt',
       });
 
       // Modify the client properties directly after creation
@@ -534,37 +484,25 @@ describe('instantiate client', () => {
 
   test('with environment variable arguments', () => {
     // set options via env var
-    process.env['EMC_BACKEND_SDK_API_KEY'] = 'My API Key';
-    process.env['EMC_BACKEND_SDK_DEVELOPER_JWT'] = 'My Developer Jwt';
-    process.env['EMC_BACKEND_SDK_ADMIN_JWT'] = 'My Admin Jwt';
-    const client = new Autofillr();
+    process.env['AUTOFILLER_API_KEY'] = 'My API Key';
+    process.env['AUTOFILLER_DEVELOPER_JWT'] = 'My Developer Jwt';
+    const client = new Engineersmind();
     expect(client.apiKey).toBe('My API Key');
     expect(client.developerJwt).toBe('My Developer Jwt');
-    expect(client.adminJwt).toBe('My Admin Jwt');
   });
 
   test('with overridden environment variable arguments', () => {
     // set options via env var
-    process.env['EMC_BACKEND_SDK_API_KEY'] = 'another My API Key';
-    process.env['EMC_BACKEND_SDK_DEVELOPER_JWT'] = 'another My Developer Jwt';
-    process.env['EMC_BACKEND_SDK_ADMIN_JWT'] = 'another My Admin Jwt';
-    const client = new Autofillr({
-      apiKey: 'My API Key',
-      developerJwt: 'My Developer Jwt',
-      adminJwt: 'My Admin Jwt',
-    });
+    process.env['AUTOFILLER_API_KEY'] = 'another My API Key';
+    process.env['AUTOFILLER_DEVELOPER_JWT'] = 'another My Developer Jwt';
+    const client = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
     expect(client.apiKey).toBe('My API Key');
     expect(client.developerJwt).toBe('My Developer Jwt');
-    expect(client.adminJwt).toBe('My Admin Jwt');
   });
 });
 
 describe('request building', () => {
-  const client = new Autofillr({
-    apiKey: 'My API Key',
-    developerJwt: 'My Developer Jwt',
-    adminJwt: 'My Admin Jwt',
-  });
+  const client = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
 
   describe('custom headers', () => {
     test('handles undefined', async () => {
@@ -583,11 +521,7 @@ describe('request building', () => {
 });
 
 describe('default encoder', () => {
-  const client = new Autofillr({
-    apiKey: 'My API Key',
-    developerJwt: 'My Developer Jwt',
-    adminJwt: 'My Admin Jwt',
-  });
+  const client = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
 
   class Serializable {
     toJSON() {
@@ -672,10 +606,9 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Autofillr({
+    const client = new Engineersmind({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
-      adminJwt: 'My Admin Jwt',
       timeout: 10,
       fetch: testFetch,
     });
@@ -708,10 +641,9 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Autofillr({
+    const client = new Engineersmind({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
-      adminJwt: 'My Admin Jwt',
       fetch: testFetch,
       maxRetries: 4,
     });
@@ -738,10 +670,9 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new Autofillr({
+    const client = new Engineersmind({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
-      adminJwt: 'My Admin Jwt',
       fetch: testFetch,
       maxRetries: 4,
     });
@@ -773,10 +704,9 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new Autofillr({
+    const client = new Engineersmind({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
-      adminJwt: 'My Admin Jwt',
       fetch: testFetch,
       maxRetries: 4,
       defaultHeaders: { 'X-Stainless-Retry-Count': null },
@@ -808,10 +738,9 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new Autofillr({
+    const client = new Engineersmind({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
-      adminJwt: 'My Admin Jwt',
       fetch: testFetch,
       maxRetries: 4,
     });
@@ -844,10 +773,9 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Autofillr({
+    const client = new Engineersmind({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
-      adminJwt: 'My Admin Jwt',
       fetch: testFetch,
     });
 
@@ -879,10 +807,9 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Autofillr({
+    const client = new Engineersmind({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
-      adminJwt: 'My Admin Jwt',
       fetch: testFetch,
     });
 
