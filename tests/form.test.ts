@@ -1,5 +1,5 @@
-import { multipartFormRequestOptions, createForm } from 'emc-backend-sdk/internal/uploads';
-import { toFile } from 'emc-backend-sdk/core/uploads';
+import { multipartFormRequestOptions, createForm } from 'autofillr-sdk/internal/uploads';
+import { toFile } from 'autofillr-sdk/core/uploads';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {

@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import EmcBackendSDK, { toFile } from 'emc-backend-sdk';
+import EmcBackendSDK, { toFile } from 'autofillr-sdk';
 
 const client = new EmcBackendSDK({
   apiKey: 'My API Key',

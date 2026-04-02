@@ -25,7 +25,7 @@ export default tseslint.config(
         {
           patterns: [
             {
-              regex: '^emc-backend-sdk(/.*)?',
+              regex: '^autofillr-sdk(/.*)?',
               message: 'Use a relative import, not a package import.',
             },
           ],

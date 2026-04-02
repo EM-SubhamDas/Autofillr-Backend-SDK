@@ -55,12 +55,12 @@ $ cd emc-backend-sdk-typescript
 # With yarn
 $ yarn link
 $ cd ../my-package
-$ yarn link emc-backend-sdk
+$ yarn link autofillr-sdk
 
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link --global emc-backend-sdk
+$ pnpm link --global autofillr-sdk
 ```
 
 ## Running tests
