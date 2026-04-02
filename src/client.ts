@@ -763,6 +763,9 @@ export class Engineersmind {
   static toFile = Uploads.toFile;
 
   sdk: API.SDK = new API.SDK(this);
+  /**
+   * Register an account, log in, and manage API keys. Start here to get your sk_live_xxx secret key.
+   */
   developers: API.Developers = new API.Developers(this);
 }
 

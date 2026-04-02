@@ -14,6 +14,7 @@ Methods:
 - <code title="get /v1/sdk/chat/sessions">client.sdk.chat.sessions.<a href="./src/resources/sdk/chat/sessions.ts">list</a>() -> void</code>
 - <code title="post /v1/sdk/chat/sessions/{sessionId}/attach-document">client.sdk.chat.sessions.<a href="./src/resources/sdk/chat/sessions.ts">attachDocument</a>(sessionID, { ...params }) -> void</code>
 - <code title="post /v1/sdk/chat/sessions/{sessionId}/end">client.sdk.chat.sessions.<a href="./src/resources/sdk/chat/sessions.ts">end</a>(sessionID) -> void</code>
+- <code title="post /v1/sdk/chat/sessions/{sessionId}/fill">client.sdk.chat.sessions.<a href="./src/resources/sdk/chat/sessions.ts">fill</a>(sessionID, { ...params }) -> void</code>
 - <code title="get /v1/sdk/chat/sessions/{sessionId}/messages">client.sdk.chat.sessions.<a href="./src/resources/sdk/chat/sessions.ts">retrieveMessages</a>(sessionID, { ...params }) -> void</code>
 
 ## Docs
@@ -21,10 +22,7 @@ Methods:
 Methods:
 
 - <code title="get /v1/sdk/docs/{docId}">client.sdk.docs.<a href="./src/resources/sdk/docs.ts">retrieve</a>(docID) -> void</code>
-- <code title="get /v1/sdk/docs">client.sdk.docs.<a href="./src/resources/sdk/docs.ts">list</a>() -> void</code>
 - <code title="delete /v1/sdk/docs/{docId}">client.sdk.docs.<a href="./src/resources/sdk/docs.ts">delete</a>(docID) -> void</code>
-- <code title="post /v1/sdk/docs/fill-from-session">client.sdk.docs.<a href="./src/resources/sdk/docs.ts">fillFromSession</a>() -> void</code>
-- <code title="get /v1/sdk/docs/{docId}/url">client.sdk.docs.<a href="./src/resources/sdk/docs.ts">getURL</a>(docID, { ...params }) -> void</code>
 - <code title="get /v1/sdk/docs/{pdfId}/result">client.sdk.docs.<a href="./src/resources/sdk/docs.ts">pollFillResult</a>(pdfID) -> void</code>
 - <code title="post /v1/sdk/docs/upload">client.sdk.docs.<a href="./src/resources/sdk/docs.ts">upload</a>({ ...params }) -> void</code>
 - <code title="post /v1/sdk/docs/upload-filled-info">client.sdk.docs.<a href="./src/resources/sdk/docs.ts">uploadFilledInfo</a>({ ...params }) -> void</code>
@@ -42,7 +40,7 @@ Methods:
 
 Methods:
 
-- <code title="get /v1/sdk/feedback/filled-pdf/history">client.sdk.feedback.filledPdf.<a href="./src/resources/sdk/feedback/filled-pdf.ts">getVersionHistory</a>({ ...params }) -> void</code>
+- <code title="get /v1/sdk/feedback/filled-pdf">client.sdk.feedback.filledPdf.<a href="./src/resources/sdk/feedback/filled-pdf.ts">getVersionHistory</a>({ ...params }) -> void</code>
 - <code title="post /v1/sdk/feedback/filled-pdf">client.sdk.feedback.filledPdf.<a href="./src/resources/sdk/feedback/filled-pdf.ts">recordSaveEvent</a>({ ...params }) -> void</code>
 
 ## Notifications
@@ -50,9 +48,7 @@ Methods:
 Methods:
 
 - <code title="get /v1/sdk/notifications">client.sdk.notifications.<a href="./src/resources/sdk/notifications.ts">list</a>({ ...params }) -> void</code>
-- <code title="get /v1/sdk/notifications/unread-count">client.sdk.notifications.<a href="./src/resources/sdk/notifications.ts">getUnreadCount</a>() -> void</code>
-- <code title="post /v1/sdk/notifications/read-all">client.sdk.notifications.<a href="./src/resources/sdk/notifications.ts">markAllAsRead</a>() -> void</code>
-- <code title="post /v1/sdk/notifications/{id}/read">client.sdk.notifications.<a href="./src/resources/sdk/notifications.ts">markAsRead</a>(id) -> void</code>
+- <code title="post /v1/sdk/notifications/read">client.sdk.notifications.<a href="./src/resources/sdk/notifications.ts">markRead</a>({ ...params }) -> void</code>
 
 # Developers
 

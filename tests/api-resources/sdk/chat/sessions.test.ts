@@ -63,6 +63,23 @@ describe('resource sessions', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('fill: only required params', async () => {
+    const responsePromise = client.sdk.chat.sessions.fill('sessionId', { pdf_doc_id: 17 });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('fill: required and optional params', async () => {
+    const response = await client.sdk.chat.sessions.fill('sessionId', { pdf_doc_id: 17 });
+  });
+
+  // Mock server tests are disabled
   test.skip('retrieveMessages', async () => {
     const responsePromise = client.sdk.chat.sessions.retrieveMessages('sessionId');
     const rawResponse = await responsePromise.asResponse();
