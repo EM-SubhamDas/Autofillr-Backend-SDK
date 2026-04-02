@@ -34,12 +34,6 @@ import { isEmptyObj } from './internal/utils/values';
 
 export interface ClientOptions {
   /**
-   * Override the default API base URL. Useful for local development or pointing to a staging environment. Example: http://localhost:3000
-   *
-   */
-  baseURL?: string | null | undefined;
-
-  /**
    * Your SDK API key — use sk_live_xxx for server-side calls, pk_live_xxx for client-side. Obtain via developers.apiKeys.create() after registering and logging in.
    *
    */
@@ -124,7 +118,6 @@ export interface ClientOptions {
  * API Client for interfacing with the Engineersmind API.
  */
 export class Engineersmind {
-  baseURL: string | null;
   apiKey: string | null;
   developerJwt: string | null;
 
@@ -143,7 +136,6 @@ export class Engineersmind {
   /**
    * API Client for interfacing with the Engineersmind API.
    *
-   * @param {string | null | undefined} [opts.baseURL=process.env['AUTOFILLER_BASE_URL'] ?? null]
    * @param {string | null | undefined} [opts.apiKey=process.env['AUTOFILLER_API_KEY'] ?? null]
    * @param {string | null | undefined} [opts.developerJwt=process.env['AUTOFILLER_DEVELOPER_JWT'] ?? null]
    * @param {string} [opts.baseURL=process.env['ENGINEERSMIND_BASE_URL'] ?? https://dev-autofiller-backend.engineersmind.dev] - Override the default base URL for the API.
@@ -156,13 +148,11 @@ export class Engineersmind {
    */
   constructor({
     baseURL = readEnv('ENGINEERSMIND_BASE_URL'),
-    baseURL = readEnv('AUTOFILLER_BASE_URL') ?? null,
     apiKey = readEnv('AUTOFILLER_API_KEY') ?? null,
     developerJwt = readEnv('AUTOFILLER_DEVELOPER_JWT') ?? null,
     ...opts
   }: ClientOptions = {}) {
     const options: ClientOptions = {
-      baseURL,
       apiKey,
       developerJwt,
       ...opts,
@@ -186,7 +176,6 @@ export class Engineersmind {
 
     this._options = options;
 
-    this.baseURL = baseURL;
     this.apiKey = apiKey;
     this.developerJwt = developerJwt;
   }
@@ -204,7 +193,6 @@ export class Engineersmind {
       logLevel: this.logLevel,
       fetch: this.fetch,
       fetchOptions: this.fetchOptions,
-      baseURL: this.baseURL,
       apiKey: this.apiKey,
       developerJwt: this.developerJwt,
       ...options,
