@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIPromise } from 'emc-backend-sdk/core/api-promise';
+import { APIPromise } from 'autofillr-sdk/core/api-promise';
 
 import util from 'node:util';
-import EmcBackendSDK from 'emc-backend-sdk';
-import { APIUserAbortError } from 'emc-backend-sdk';
+import EmcBackendSDK from 'autofillr-sdk';
+import { APIUserAbortError } from 'autofillr-sdk';
 const defaultFetch = fetch;
 
 describe('instantiate client', () => {
