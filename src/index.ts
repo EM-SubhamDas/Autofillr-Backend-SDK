@@ -1,12 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { EmcBackendSDK as default } from './client';
+export { Autofillr as default } from './client';
 
 export { type Uploadable, toFile } from './core/uploads';
 export { APIPromise } from './core/api-promise';
-export { EmcBackendSDK, type ClientOptions } from './client';
+export { Autofillr, type ClientOptions } from './client';
 export {
-  EmcBackendSDKError,
+  AutofillrError,
   APIError,
   APIConnectionError,
   APIConnectionTimeoutError,

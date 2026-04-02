@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import EmcBackendSDK from 'autofillr-sdk';
+import Autofillr from 'autofillr-sdk';
 
-const client = new EmcBackendSDK({
+const client = new Autofillr({
   apiKey: 'My API Key',
   developerJwt: 'My Developer Jwt',
   adminJwt: 'My Admin Jwt',
@@ -84,6 +84,6 @@ describe('resource sessions', () => {
         { page: 0, size: 0 },
         { path: '/_stainless_unknown_path' },
       ),
-    ).rejects.toThrow(EmcBackendSDK.NotFoundError);
+    ).rejects.toThrow(Autofillr.NotFoundError);
   });
 });
