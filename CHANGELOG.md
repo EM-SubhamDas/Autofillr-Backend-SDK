@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0 (2026-04-02)
+
+Full Changelog: [v0.1.0...v0.2.0](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/compare/v0.1.0...v0.2.0)
+
+### Features
+
+* **api:** manual updates ([e076564](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/e07656456e94f70e5ea83914af9a92f3b6bf835f))
+
 ## 0.1.0 (2026-04-02)
 
 Full Changelog: [v0.0.1...v0.1.0](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/compare/v0.0.1...v0.1.0)
