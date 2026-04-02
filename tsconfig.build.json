@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "emc-backend-sdk/*": ["./dist/src/*"],
-      "emc-backend-sdk": ["./dist/src/index.ts"]
+      "@pdffillr/sdk/*": ["./dist/src/*"],
+      "@pdffillr/sdk": ["./dist/src/index.ts"]
     },
     "noEmit": false,
     "declaration": true,

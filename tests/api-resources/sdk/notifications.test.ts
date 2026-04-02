@@ -1,11 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import EmcBackendSDK from 'emc-backend-sdk';
+import Pdffillr from '@pdffillr/sdk';
 
-const client = new EmcBackendSDK({
+const client = new Pdffillr({
   apiKey: 'My API Key',
   developerJwt: 'My Developer Jwt',
-  adminJwt: 'My Admin Jwt',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
@@ -27,7 +26,7 @@ describe('resource notifications', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.sdk.notifications.list({ page: 0, pageSize: 0 }, { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(EmcBackendSDK.NotFoundError);
+    ).rejects.toThrow(Pdffillr.NotFoundError);
   });
 
   // Mock server tests are disabled

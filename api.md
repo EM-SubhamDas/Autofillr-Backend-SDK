@@ -41,7 +41,7 @@ Methods:
 Methods:
 
 - <code title="get /v1/sdk/feedback/filled-pdf">client.sdk.feedback.filledPdf.<a href="./src/resources/sdk/feedback/filled-pdf.ts">getVersionHistory</a>({ ...params }) -> void</code>
-- <code title="post /v1/sdk/feedback/filled-pdf">client.sdk.feedback.filledPdf.<a href="./src/resources/sdk/feedback/filled-pdf.ts">recordSave</a>({ ...params }) -> void</code>
+- <code title="post /v1/sdk/feedback/filled-pdf">client.sdk.feedback.filledPdf.<a href="./src/resources/sdk/feedback/filled-pdf.ts">recordSaveEvent</a>({ ...params }) -> void</code>
 
 ## Notifications
 

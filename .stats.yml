@@ -1,4 +1,4 @@
 configured_endpoints: 25
-openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/engineersmind-EM-SubhamDas%2Femc-backend-sdk-630e0baa24c7ce785ec84d4caf3cc27602c1b346b7c0311a37b7fb0172b594f0.yml
-openapi_spec_hash: 9b9a8fb6c8d95fa41797fe5141da782c
-config_hash: 0cbce0d07ddde615204430975b873758
+openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/engineersmind-EM-SubhamDas%2Femc-backend-sdk-52af66a0c5f43465b64714b5d8d3e82754b0fdc3ff820c6471dcb292770fc575.yml
+openapi_spec_hash: 00e390a6c6e625efb33fa520a4c99327
+config_hash: 2a389e4adca7f128b39135cc5fd7ac88

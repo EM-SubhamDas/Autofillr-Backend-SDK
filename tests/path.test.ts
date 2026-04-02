@@ -1,4 +1,4 @@
-import { createPathTagFunction, encodeURIPath } from 'emc-backend-sdk/internal/utils/path';
+import { createPathTagFunction, encodeURIPath } from '@pdffillr/sdk/internal/utils/path';
 import { inspect } from 'node:util';
 import { runInNewContext } from 'node:vm';
 
