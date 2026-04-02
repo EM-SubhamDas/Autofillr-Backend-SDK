@@ -25,7 +25,7 @@ export default tseslint.config(
         {
           patterns: [
             {
-              regex: '^autofillr-sdk(/.*)?',
+              regex: '^@engineersmind/autofiller-sdk(/.*)?',
               message: 'Use a relative import, not a package import.',
             },
           ],

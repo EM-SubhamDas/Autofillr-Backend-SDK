@@ -1,6 +1,6 @@
 import fs from 'fs';
-import type { ResponseLike } from 'autofillr-sdk/internal/to-file';
-import { toFile } from 'autofillr-sdk/core/uploads';
+import type { ResponseLike } from '@engineersmind/autofiller-sdk/internal/to-file';
+import { toFile } from '@engineersmind/autofiller-sdk/core/uploads';
 import { File } from 'node:buffer';
 
 class MyClass {
@@ -97,7 +97,7 @@ describe('missing File error message', () => {
   });
 
   test('is thrown', async () => {
-    const uploads = await import('autofillr-sdk/core/uploads');
+    const uploads = await import('@engineersmind/autofiller-sdk/core/uploads');
     await expect(
       uploads.toFile(mockResponse({ url: 'https://example.com/my/audio.mp3' })),
     ).rejects.toMatchInlineSnapshot(
