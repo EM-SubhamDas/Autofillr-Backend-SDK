@@ -1,0 +1,700 @@
+openapi: 3.0.0
+paths:
+  /v1/sdk/chat/sessions:
+    post:
+      description: Opens a new AI chat session. Returns `session_id` used in all subsequent chat calls.
+      operationId: sdk_chat_create_session
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SdkCreateSessionDto'
+      responses:
+        '201':
+          description: Returns `{ session_id, title, status, created_at }`.
+        '401':
+          description: Missing or invalid API key.
+      security: &ref_0
+        - api-key: []
+      summary: Create a chat session
+      tags: &ref_1
+        - SDK Chat
+    get:
+      description: Returns all sessions ordered by creation date descending with `session_id`, title, status, and message count.
+      operationId: sdk_chat_list_sessions
+      parameters: []
+      responses:
+        '200':
+          description: Array of session objects.
+        '401':
+          description: Missing or invalid API key.
+      security: *ref_0
+      summary: List chat sessions
+      tags: *ref_1
+  /v1/sdk/chat/send:
+    post:
+      description: Sends a message to the AI in an active session. Synchronous (2–8 s). Returns the AI reply. Uses all prior messages and attached documents as context.
+      operationId: sdk_chat_send
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SdkSendMessageDto'
+      responses:
+        '201':
+          description: Returns user message and AI reply records.
+        '401':
+          description: Missing or invalid API key.
+      security: *ref_0
+      summary: Send a message
+      tags: *ref_1
+  /v1/sdk/chat/sessions/{sessionId}/messages:
+    get:
+      description: 'Returns paginated message history in chronological order. Query params: `page` (0-based, default 0), `size` (1–100, default 50).'
+      operationId: sdk_chat_get_messages
+      parameters:
+        - name: sessionId
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: page
+          required: false
+          in: query
+          schema:
+            type: number
+        - name: size
+          required: false
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: '`{ data: Message[], total, page, size }`.'
+        '401':
+          description: Missing or invalid API key.
+      security: *ref_0
+      summary: Get session messages
+      tags: *ref_1
+  /v1/sdk/chat/sessions/{sessionId}/attach-document:
+    post:
+      description: Attaches an uploaded document to a session. The AI uses it as context for all subsequent messages. Upload the document via `POST /v1/sdk/docs/upload` first.
+      operationId: sdk_chat_attach_document
+      parameters:
+        - name: sessionId
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SdkAttachDocumentDto'
+      responses:
+        '201':
+          description: Document attached. Returns updated session record.
+        '401':
+          description: Missing or invalid API key.
+      security: *ref_0
+      summary: Attach a document to a session
+      tags: *ref_1
+  /v1/sdk/chat/sessions/{sessionId}/fill:
+    post:
+      description: Queues a fill job using field values collected during this chat session. **Workflow:** (1) Upload PDF → `doc_id`. (2) Create session. (3) Attach PDF. (4) Chat with AI. (5) Call this endpoint with `pdf_doc_id`. (6) Poll `GET /v1/sdk/docs/{pdf_doc_id}/result` until `ready`. (7) Download.
+      operationId: sdk_chat_fill_from_session
+      parameters:
+        - name: sessionId
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SdkFillFromSessionDto'
+      responses:
+        '201':
+          description: '`{ status: ''queued'', session_id, pdf_doc_id }`. Poll `GET /v1/sdk/docs/{pdf_doc_id}/result`.'
+        '401':
+          description: Missing or invalid API key.
+      security: *ref_0
+      summary: Trigger AI fill from session
+      tags: *ref_1
+  /v1/sdk/chat/sessions/{sessionId}/end:
+    post:
+      description: Marks a session as ended. History remains readable but no new messages can be sent.
+      operationId: sdk_chat_end_session
+      parameters:
+        - name: sessionId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '201':
+          description: '`{ sessionId, status: ''ended'' }`.'
+        '401':
+          description: Missing or invalid API key.
+      security: *ref_0
+      summary: End a chat session
+      tags: *ref_1
+  /v1/sdk/docs/upload:
+    post:
+      description: Uploads a PDF, DOCX, or image (max 10 MB). Returns a `doc_id` used in all fill and chat operations.
+      operationId: sdk_docs_upload
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Returns `{ doc_id, filename, mimetype, s3_key, created_at }`.
+        '401':
+          description: Missing or invalid API key.
+      security: &ref_2
+        - api-key: []
+      summary: Upload a document
+      tags: &ref_3
+        - SDK Documents
+  /v1/sdk/docs/{docId}:
+    get:
+      description: Returns metadata for a document — `doc_id`, filename, MIME type, fill status, and S3 key.
+      operationId: sdk_docs_get
+      parameters:
+        - name: docId
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Document metadata.
+        '401':
+          description: Missing or invalid API key.
+      security: *ref_2
+      summary: Get document metadata
+      tags: *ref_3
+    delete:
+      description: Permanently deletes a document and its S3 object. In-progress fill jobs referencing this document will fail.
+      operationId: sdk_docs_delete
+      parameters:
+        - name: docId
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Document deleted.
+        '401':
+          description: Missing or invalid API key.
+      security: *ref_2
+      summary: Delete a document
+      tags: *ref_3
+  /v1/sdk/docs/{pdfId}/result:
+    get:
+      description: 'Returns fill job status: `processing` (poll again in 3–5 s), `ready` (download `url` — expires 1 hr), or `failed` (`error` field).'
+      operationId: sdk_docs_filled_result
+      parameters:
+        - name: pdfId
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: '`{ status, url? }` — `url` present when `ready`.'
+        '401':
+          description: Missing or invalid API key.
+      security: *ref_2
+      summary: Poll fill job result
+      tags: *ref_3
+  /v1/sdk/docs/upload-filled-info:
+    post:
+      description: Uploads a filled-info data file and triggers the AI fill pipeline. **Workflow:** (1) Upload empty PDF → `pdf_doc_id`. (2) Upload filled-info here with `?pdf_doc_id=`. (3) Poll `GET /{pdfId}/result` until `ready`. (4) Download.
+      operationId: sdk_docs_upload_filled_info
+      parameters:
+        - name: pdf_doc_id
+          required: true
+          in: query
+          description: '`doc_id` of the empty PDF to fill.'
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Fill job queued. Poll `GET /{pdfId}/result`.
+        '401':
+          description: Missing or invalid API key.
+      security: *ref_2
+      summary: Upload filled-info and trigger fill
+      tags: *ref_3
+  /v1/sdk/feedback/user:
+    post:
+      description: 'Records feedback on an incorrectly filled field. `error_type`: `wrong_value`, `wrong_field`, `missing_field`, `extra_field`, `formatting`, `other`.'
+      operationId: sdk_feedback_submit
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SdkSubmitFeedbackDto'
+      responses:
+        '201':
+          description: Feedback recorded.
+        '401':
+          description: Missing or invalid API key.
+      security: &ref_4
+        - api-key: []
+      summary: Submit field-level feedback
+      tags: &ref_5
+        - SDK Feedback
+    get:
+      description: 'Returns paginated feedback. Query params: `session_id`, `pdf_id`, `page` (1-based, default 1), `limit` (1–100, default 20).'
+      operationId: sdk_feedback_list
+      parameters:
+        - name: session_id
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: pdf_id
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: page
+          required: false
+          in: query
+          schema:
+            default: 1
+            type: number
+        - name: limit
+          required: false
+          in: query
+          schema:
+            default: 20
+            type: number
+      responses:
+        '200':
+          description: '`{ data: Feedback[], total, page, limit }`.'
+        '401':
+          description: Missing or invalid API key.
+      security: *ref_4
+      summary: List submitted feedback
+      tags: *ref_5
+  /v1/sdk/feedback/filled-pdf:
+    post:
+      description: Logs a filled PDF being saved or downloaded. Call after fill completes. `GET` this same path to retrieve version history.
+      operationId: sdk_feedback_filled_pdf_save
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SdkSaveFilledPdfDto'
+      responses:
+        '201':
+          description: Filled PDF event recorded.
+        '401':
+          description: Missing or invalid API key.
+      security: *ref_4
+      summary: Record a filled PDF save event
+      tags: *ref_5
+    get:
+      description: Returns all saved versions for a given session and PDF, ordered by date descending.
+      operationId: sdk_feedback_filled_pdf_history
+      parameters:
+        - name: session_id
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: pdf_id
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Array of filled PDF version records.
+        '401':
+          description: Missing or invalid API key.
+      security: *ref_4
+      summary: Get filled PDF version history
+      tags: *ref_5
+  /v1/sdk/notifications:
+    get:
+      description: 'Returns paginated pipeline notifications. Response includes `unreadCount`. Query params: `page` (1-based, default 1), `pageSize` (1–100, default 20).'
+      operationId: sdk_notifications_list
+      parameters:
+        - name: page
+          required: false
+          in: query
+          schema:
+            type: number
+        - name: pageSize
+          required: false
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: '`{ data: Notification[], total, page, pageSize, unreadCount }`.'
+        '401':
+          description: Missing or invalid API key.
+      security: &ref_6
+        - api-key: []
+      summary: List notifications
+      tags: &ref_7
+        - SDK Notifications
+  /v1/sdk/notifications/read:
+    post:
+      description: Pass `{ id }` to mark one notification as read. Omit `id` to mark all unread notifications as read at once.
+      operationId: sdk_notifications_mark_read
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: number
+                  description: Notification ID. Omit to mark all.
+      responses:
+        '201':
+          description: '`{ updated: number }`.'
+        '401':
+          description: Missing or invalid API key.
+      security: *ref_6
+      summary: Mark notification(s) as read
+      tags: *ref_7
+  /v1/developers/register:
+    post:
+      description: Creates an account and generates a default API key pair (`pk_live_xxx` + `sk_live_xxx`). **The `secret_key` is shown only once** — store it immediately.
+      operationId: developers_register
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterDto'
+      responses:
+        '201':
+          description: '`{ developer, apiKey: { key_id, public_key, secret_key, name } }`. Secret shown once.'
+        '401':
+          description: Missing or invalid credentials.
+      summary: Register a developer account
+      tags: &ref_8
+        - SDK Developers
+  /v1/developers/login:
+    post:
+      description: Returns a short-lived `developer-session` JWT for managing API keys. **Not used for SDK API calls** — use `sk_live_xxx` for those.
+      operationId: developers_login
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeveloperLoginDto'
+      responses:
+        '200':
+          description: '`{ access_token, developer: { id, email, display_name } }`.'
+        '401':
+          description: Invalid email or password.
+      summary: Login and get session token
+      tags: *ref_8
+  /v1/developers/me:
+    get:
+      description: Returns the authenticated developer's profile. Requires `developer-session` token from `POST /v1/developers/login`.
+      operationId: developers_me
+      parameters: []
+      responses:
+        '200':
+          description: '`{ id, email, display_name, created_at, api_key_count }`.'
+        '401':
+          description: Missing or expired session token.
+      security:
+        - developer-session: []
+      summary: Get developer profile
+      tags: *ref_8
+  /v1/developers/api-keys:
+    post:
+      description: Generates a new `pk_live_xxx` / `sk_live_xxx` pair. **`secret_key` shown only once** — store immediately. Use `name` to label per environment.
+      operationId: developers_create_api_key
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApiKeyDto'
+      responses:
+        '201':
+          description: '`{ key_id, name, public_key, secret_key, created_at }`. Secret shown once.'
+        '401':
+          description: Missing or expired session token.
+      security:
+        - developer-session: []
+      summary: Create an API key pair
+      tags: *ref_8
+    get:
+      description: Returns all API keys with secrets masked (`sk_live_***...`).
+      operationId: developers_list_api_keys
+      parameters: []
+      responses:
+        '200':
+          description: Array of `{ key_id, name, public_key, secret_key_preview, created_at, last_used_at }`.
+        '401':
+          description: Missing or expired session token.
+      security:
+        - developer-session: []
+      summary: List API keys
+      tags: *ref_8
+  /v1/developers/api-keys/{keyId}:
+    delete:
+      description: Permanently deletes an API key. Requests using this key immediately receive `401`. Cannot be undone.
+      operationId: developers_delete_api_key
+      parameters:
+        - name: keyId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: API key deleted.
+        '401':
+          description: Missing or expired session token.
+      security:
+        - developer-session: []
+      summary: Delete an API key
+      tags: *ref_8
+  /v1/developers/api-keys/{keyId}/rotate:
+    post:
+      description: Issues a new `sk_live_xxx` secret, immediately invalidating the old one. `key_id` and `public_key` stay the same. New secret shown only once.
+      operationId: developers_rotate_api_key
+      parameters:
+        - name: keyId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Returns new `secret_key`. Old secret immediately revoked.
+        '401':
+          description: Missing or expired session token.
+      security:
+        - developer-session: []
+      summary: Rotate an API key secret
+      tags: *ref_8
+info:
+  title: SDK API Reference
+  description: Public SDK API endpoints for third-party integrations
+  version: '1.0'
+  contact: {}
+tags:
+  - name: SDK Developers
+    description: Register an account, log in, and manage API keys. Start here to get your sk_live_xxx secret key.
+  - name: SDK Documents
+    description: Upload PDF templates, trigger the AI fill pipeline, and download filled PDFs.
+  - name: SDK Chat
+    description: Create AI chat sessions, exchange messages, attach documents, and trigger fill from session output.
+  - name: SDK Notifications
+    description: Poll or list pipeline events (fill started, ready, failed) generated by the AI backend.
+  - name: SDK Feedback
+    description: Submit field-level corrections and retrieve fill history to improve AI accuracy.
+servers: []
+components:
+  securitySchemes:
+    api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: SDK API key — enter your sk_live_xxx or pk_live_xxx key (without the Bearer prefix)
+    developer-session:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Developer dashboard JWT — obtain from POST /v1/developers/login
+    admin-session:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Admin JWT — obtain from POST /v1/admin/auth/login
+  schemas:
+    SdkCreateSessionDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Human-readable label for this session.
+          example: Q4 Tax Form Review
+    SdkSendMessageDto:
+      type: object
+      properties:
+        session_id:
+          type: string
+          description: Active session ID.
+          example: clx9f2k3n0000abc123xyz
+        message:
+          type: string
+          example: What is the deadline field on page 2?
+      required:
+        - session_id
+        - message
+    SdkAttachDocumentDto:
+      type: object
+      properties:
+        doc_id:
+          type: number
+          description: '`doc_id` from `POST /v1/sdk/docs/upload`.'
+          example: 42
+      required:
+        - doc_id
+    SdkFillFromSessionDto:
+      type: object
+      properties:
+        pdf_doc_id:
+          type: number
+          description: '`doc_id` of the empty PDF to fill.'
+          example: 17
+      required:
+        - pdf_doc_id
+    SdkSubmitFeedbackDto:
+      type: object
+      properties:
+        session_id:
+          type: string
+          example: clx9f2k3n0000abc123xyz
+        pdf_id:
+          type: string
+          example: '42'
+        error_type:
+          type: string
+          description: '`wrong_value` | `wrong_field` | `missing_field` | `extra_field` | `formatting` | `other`'
+          example: wrong_value
+        field_name:
+          type: string
+          example: Date of Birth
+        field_type:
+          type: string
+          description: 'Field type: `text`, `checkbox`, `radio`, `date`, `signature`, `dropdown`.'
+          example: date
+        page_number:
+          type: number
+          description: Page number (1-based).
+          example: 2
+        feedback:
+          type: string
+          example: Date was filled as MM/DD/YYYY but form requires DD/MM/YYYY.
+        corners:
+          type: object
+          description: Bounding box `{ x1, y1, x2, y2 }` of the field on the page.
+          example:
+            x1: 120
+            y1: 340
+            x2: 300
+            y2: 360
+      required:
+        - session_id
+        - pdf_id
+        - error_type
+        - field_name
+        - field_type
+        - page_number
+        - feedback
+    SdkSaveFilledPdfDto:
+      type: object
+      properties:
+        session_id:
+          type: string
+          example: clx9f2k3n0000abc123xyz
+        pdf_id:
+          type: string
+          example: '42'
+        filled_pdf_location:
+          type: string
+          description: S3 key or URL where the filled PDF is stored.
+          example: filled-pdfs/dev-123/session-abc/v1.pdf
+      required:
+        - session_id
+        - pdf_id
+        - filled_pdf_location
+    RegisterDto:
+      type: object
+      properties:
+        email:
+          type: string
+          description: The email address for the developer account. Used to log in and receive account notifications. Must be unique across all developer accounts.
+          example: developer@example.com
+        password:
+          type: string
+          description: Account password. Minimum 8 characters. Store this securely — it cannot be recovered, only reset.
+          example: MySecurePass123!
+          minLength: 8
+        display_name:
+          type: string
+          description: A human-readable display name shown in the developer dashboard and admin panel.
+          example: John Doe
+      required:
+        - email
+        - password
+        - display_name
+    DeveloperLoginDto:
+      type: object
+      properties:
+        email:
+          type: string
+          description: The email address registered with your developer account.
+          example: developer@example.com
+        password:
+          type: string
+          description: Your account password.
+          example: MySecurePass123!
+      required:
+        - email
+        - password
+    CreateApiKeyDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name for this API key
+          example: Production Server
+          default: Default
