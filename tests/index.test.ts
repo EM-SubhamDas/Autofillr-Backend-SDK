@@ -3,7 +3,7 @@
 import { APIPromise } from 'autofillr-sdk/core/api-promise';
 
 import util from 'node:util';
-import EmcBackendSDK from 'autofillr-sdk';
+import Autofillr from 'autofillr-sdk';
 import { APIUserAbortError } from 'autofillr-sdk';
 const defaultFetch = fetch;
 
@@ -20,7 +20,7 @@ describe('instantiate client', () => {
   });
 
   describe('defaultHeaders', () => {
-    const client = new EmcBackendSDK({
+    const client = new Autofillr({
       baseURL: 'http://localhost:5000/',
       defaultHeaders: { 'X-My-Default-Header': '2' },
       apiKey: 'My API Key',
@@ -56,14 +56,14 @@ describe('instantiate client', () => {
 
     beforeEach(() => {
       process.env = { ...env };
-      process.env['EMC_BACKEND_SDK_LOG'] = undefined;
+      process.env['AUTOFILLR_LOG'] = undefined;
     });
 
     afterEach(() => {
       process.env = env;
     });
 
-    const forceAPIResponseForClient = async (client: EmcBackendSDK) => {
+    const forceAPIResponseForClient = async (client: Autofillr) => {
       await new APIPromise(
         client,
         Promise.resolve({
@@ -89,7 +89,7 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      const client = new EmcBackendSDK({
+      const client = new Autofillr({
         logger: logger,
         logLevel: 'debug',
         apiKey: 'My API Key',
@@ -102,7 +102,7 @@ describe('instantiate client', () => {
     });
 
     test('default logLevel is warn', async () => {
-      const client = new EmcBackendSDK({
+      const client = new Autofillr({
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
         adminJwt: 'My Admin Jwt',
@@ -119,7 +119,7 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      const client = new EmcBackendSDK({
+      const client = new Autofillr({
         logger: logger,
         logLevel: 'info',
         apiKey: 'My API Key',
@@ -140,8 +140,8 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['EMC_BACKEND_SDK_LOG'] = 'debug';
-      const client = new EmcBackendSDK({
+      process.env['AUTOFILLR_LOG'] = 'debug';
+      const client = new Autofillr({
         logger: logger,
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
@@ -162,8 +162,8 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['EMC_BACKEND_SDK_LOG'] = 'not a log level';
-      const client = new EmcBackendSDK({
+      process.env['AUTOFILLR_LOG'] = 'not a log level';
+      const client = new Autofillr({
         logger: logger,
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
@@ -171,7 +171,7 @@ describe('instantiate client', () => {
       });
       expect(client.logLevel).toBe('warn');
       expect(warnMock).toHaveBeenCalledWith(
-        'process.env[\'EMC_BACKEND_SDK_LOG\'] was set to "not a log level", expected one of ["off","error","warn","info","debug"]',
+        'process.env[\'AUTOFILLR_LOG\'] was set to "not a log level", expected one of ["off","error","warn","info","debug"]',
       );
     });
 
@@ -184,8 +184,8 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['EMC_BACKEND_SDK_LOG'] = 'debug';
-      const client = new EmcBackendSDK({
+      process.env['AUTOFILLR_LOG'] = 'debug';
+      const client = new Autofillr({
         logger: logger,
         logLevel: 'off',
         apiKey: 'My API Key',
@@ -206,8 +206,8 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['EMC_BACKEND_SDK_LOG'] = 'not a log level';
-      const client = new EmcBackendSDK({
+      process.env['AUTOFILLR_LOG'] = 'not a log level';
+      const client = new Autofillr({
         logger: logger,
         logLevel: 'debug',
         apiKey: 'My API Key',
@@ -221,7 +221,7 @@ describe('instantiate client', () => {
 
   describe('defaultQuery', () => {
     test('with null query params given', () => {
-      const client = new EmcBackendSDK({
+      const client = new Autofillr({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo' },
         apiKey: 'My API Key',
@@ -232,7 +232,7 @@ describe('instantiate client', () => {
     });
 
     test('multiple default query params', () => {
-      const client = new EmcBackendSDK({
+      const client = new Autofillr({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo', hello: 'world' },
         apiKey: 'My API Key',
@@ -243,7 +243,7 @@ describe('instantiate client', () => {
     });
 
     test('overriding with `undefined`', () => {
-      const client = new EmcBackendSDK({
+      const client = new Autofillr({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { hello: 'world' },
         apiKey: 'My API Key',
@@ -255,7 +255,7 @@ describe('instantiate client', () => {
   });
 
   test('custom fetch', async () => {
-    const client = new EmcBackendSDK({
+    const client = new Autofillr({
       baseURL: 'http://localhost:5000/',
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
@@ -275,7 +275,7 @@ describe('instantiate client', () => {
 
   test('explicit global fetch', async () => {
     // make sure the global fetch type is assignable to our Fetch type
-    const client = new EmcBackendSDK({
+    const client = new Autofillr({
       baseURL: 'http://localhost:5000/',
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
@@ -285,7 +285,7 @@ describe('instantiate client', () => {
   });
 
   test('custom signal', async () => {
-    const client = new EmcBackendSDK({
+    const client = new Autofillr({
       baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
@@ -319,7 +319,7 @@ describe('instantiate client', () => {
       return new Response(JSON.stringify({}), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new EmcBackendSDK({
+    const client = new Autofillr({
       baseURL: 'http://localhost:5000/',
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
@@ -333,7 +333,7 @@ describe('instantiate client', () => {
 
   describe('baseUrl', () => {
     test('trailing slash', () => {
-      const client = new EmcBackendSDK({
+      const client = new Autofillr({
         baseURL: 'http://localhost:5000/custom/path/',
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
@@ -343,7 +343,7 @@ describe('instantiate client', () => {
     });
 
     test('no trailing slash', () => {
-      const client = new EmcBackendSDK({
+      const client = new Autofillr({
         baseURL: 'http://localhost:5000/custom/path',
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
@@ -353,11 +353,11 @@ describe('instantiate client', () => {
     });
 
     afterEach(() => {
-      process.env['EMC_BACKEND_SDK_BASE_URL'] = undefined;
+      process.env['AUTOFILLR_BASE_URL'] = undefined;
     });
 
     test('explicit option', () => {
-      const client = new EmcBackendSDK({
+      const client = new Autofillr({
         baseURL: 'https://example.com',
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
@@ -367,8 +367,8 @@ describe('instantiate client', () => {
     });
 
     test('env variable', () => {
-      process.env['EMC_BACKEND_SDK_BASE_URL'] = 'https://example.com/from_env';
-      const client = new EmcBackendSDK({
+      process.env['AUTOFILLR_BASE_URL'] = 'https://example.com/from_env';
+      const client = new Autofillr({
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
         adminJwt: 'My Admin Jwt',
@@ -377,8 +377,8 @@ describe('instantiate client', () => {
     });
 
     test('empty env variable', () => {
-      process.env['EMC_BACKEND_SDK_BASE_URL'] = ''; // empty
-      const client = new EmcBackendSDK({
+      process.env['AUTOFILLR_BASE_URL'] = ''; // empty
+      const client = new Autofillr({
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
         adminJwt: 'My Admin Jwt',
@@ -387,8 +387,8 @@ describe('instantiate client', () => {
     });
 
     test('blank env variable', () => {
-      process.env['EMC_BACKEND_SDK_BASE_URL'] = '  '; // blank
-      const client = new EmcBackendSDK({
+      process.env['AUTOFILLR_BASE_URL'] = '  '; // blank
+      const client = new Autofillr({
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
         adminJwt: 'My Admin Jwt',
@@ -397,7 +397,7 @@ describe('instantiate client', () => {
     });
 
     test('in request options', () => {
-      const client = new EmcBackendSDK({
+      const client = new Autofillr({
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
         adminJwt: 'My Admin Jwt',
@@ -408,7 +408,7 @@ describe('instantiate client', () => {
     });
 
     test('in request options overridden by client options', () => {
-      const client = new EmcBackendSDK({
+      const client = new Autofillr({
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
         adminJwt: 'My Admin Jwt',
@@ -420,8 +420,8 @@ describe('instantiate client', () => {
     });
 
     test('in request options overridden by env variable', () => {
-      process.env['EMC_BACKEND_SDK_BASE_URL'] = 'http://localhost:5000/env';
-      const client = new EmcBackendSDK({
+      process.env['AUTOFILLR_BASE_URL'] = 'http://localhost:5000/env';
+      const client = new Autofillr({
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
         adminJwt: 'My Admin Jwt',
@@ -433,7 +433,7 @@ describe('instantiate client', () => {
   });
 
   test('maxRetries option is correctly set', () => {
-    const client = new EmcBackendSDK({
+    const client = new Autofillr({
       maxRetries: 4,
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
@@ -442,7 +442,7 @@ describe('instantiate client', () => {
     expect(client.maxRetries).toEqual(4);
 
     // default
-    const client2 = new EmcBackendSDK({
+    const client2 = new Autofillr({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
       adminJwt: 'My Admin Jwt',
@@ -452,7 +452,7 @@ describe('instantiate client', () => {
 
   describe('withOptions', () => {
     test('creates a new client with overridden options', async () => {
-      const client = new EmcBackendSDK({
+      const client = new Autofillr({
         baseURL: 'http://localhost:5000/',
         maxRetries: 3,
         apiKey: 'My API Key',
@@ -479,7 +479,7 @@ describe('instantiate client', () => {
     });
 
     test('inherits options from the parent client', async () => {
-      const client = new EmcBackendSDK({
+      const client = new Autofillr({
         baseURL: 'http://localhost:5000/',
         defaultHeaders: { 'X-Test-Header': 'test-value' },
         defaultQuery: { 'test-param': 'test-value' },
@@ -500,7 +500,7 @@ describe('instantiate client', () => {
     });
 
     test('respects runtime property changes when creating new client', () => {
-      const client = new EmcBackendSDK({
+      const client = new Autofillr({
         baseURL: 'http://localhost:5000/',
         timeout: 1000,
         apiKey: 'My API Key',
@@ -537,7 +537,7 @@ describe('instantiate client', () => {
     process.env['EMC_BACKEND_SDK_API_KEY'] = 'My API Key';
     process.env['EMC_BACKEND_SDK_DEVELOPER_JWT'] = 'My Developer Jwt';
     process.env['EMC_BACKEND_SDK_ADMIN_JWT'] = 'My Admin Jwt';
-    const client = new EmcBackendSDK();
+    const client = new Autofillr();
     expect(client.apiKey).toBe('My API Key');
     expect(client.developerJwt).toBe('My Developer Jwt');
     expect(client.adminJwt).toBe('My Admin Jwt');
@@ -548,7 +548,7 @@ describe('instantiate client', () => {
     process.env['EMC_BACKEND_SDK_API_KEY'] = 'another My API Key';
     process.env['EMC_BACKEND_SDK_DEVELOPER_JWT'] = 'another My Developer Jwt';
     process.env['EMC_BACKEND_SDK_ADMIN_JWT'] = 'another My Admin Jwt';
-    const client = new EmcBackendSDK({
+    const client = new Autofillr({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
       adminJwt: 'My Admin Jwt',
@@ -560,7 +560,7 @@ describe('instantiate client', () => {
 });
 
 describe('request building', () => {
-  const client = new EmcBackendSDK({
+  const client = new Autofillr({
     apiKey: 'My API Key',
     developerJwt: 'My Developer Jwt',
     adminJwt: 'My Admin Jwt',
@@ -583,7 +583,7 @@ describe('request building', () => {
 });
 
 describe('default encoder', () => {
-  const client = new EmcBackendSDK({
+  const client = new Autofillr({
     apiKey: 'My API Key',
     developerJwt: 'My Developer Jwt',
     adminJwt: 'My Admin Jwt',
@@ -672,7 +672,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new EmcBackendSDK({
+    const client = new Autofillr({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
       adminJwt: 'My Admin Jwt',
@@ -708,7 +708,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new EmcBackendSDK({
+    const client = new Autofillr({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
       adminJwt: 'My Admin Jwt',
@@ -738,7 +738,7 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new EmcBackendSDK({
+    const client = new Autofillr({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
       adminJwt: 'My Admin Jwt',
@@ -773,7 +773,7 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new EmcBackendSDK({
+    const client = new Autofillr({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
       adminJwt: 'My Admin Jwt',
@@ -808,7 +808,7 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new EmcBackendSDK({
+    const client = new Autofillr({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
       adminJwt: 'My Admin Jwt',
@@ -844,7 +844,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new EmcBackendSDK({
+    const client = new Autofillr({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
       adminJwt: 'My Admin Jwt',
@@ -879,7 +879,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new EmcBackendSDK({
+    const client = new Autofillr({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
       adminJwt: 'My Admin Jwt',

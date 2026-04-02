@@ -1,8 +1,8 @@
 {
   "name": "autofillr-sdk",
   "version": "0.0.1",
-  "description": "The official TypeScript library for the Emc Backend SDK API",
-  "author": "Emc Backend SDK <>",
+  "description": "The official TypeScript library for the Autofillr API",
+  "author": "Autofillr <>",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "type": "commonjs",

@@ -1,8 +1,8 @@
-# Emc Backend SDK TypeScript API Library
+# Autofillr TypeScript API Library
 
 [![NPM version](<https://img.shields.io/npm/v/autofillr-sdk.svg?label=npm%20(stable)>)](https://npmjs.org/package/autofillr-sdk) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/autofillr-sdk)
 
-This library provides convenient access to the Emc Backend SDK REST API from server-side TypeScript or JavaScript.
+This library provides convenient access to the Autofillr REST API from server-side TypeScript or JavaScript.
 
 The full API of this library can be found in [api.md](api.md).
 
@@ -23,9 +23,9 @@ The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import EmcBackendSDK from 'autofillr-sdk';
+import Autofillr from 'autofillr-sdk';
 
-const client = new EmcBackendSDK({
+const client = new Autofillr({
   apiKey: process.env['EMC_BACKEND_SDK_API_KEY'], // This is the default and can be omitted
 });
 
@@ -38,9 +38,9 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import EmcBackendSDK from 'autofillr-sdk';
+import Autofillr from 'autofillr-sdk';
 
-const client = new EmcBackendSDK({
+const client = new Autofillr({
   apiKey: process.env['EMC_BACKEND_SDK_API_KEY'], // This is the default and can be omitted
 });
 
@@ -60,9 +60,9 @@ Request parameters that correspond to file uploads can be passed in many differe
 
 ```ts
 import fs from 'fs';
-import EmcBackendSDK, { toFile } from 'autofillr-sdk';
+import Autofillr, { toFile } from 'autofillr-sdk';
 
-const client = new EmcBackendSDK();
+const client = new Autofillr();
 
 // If you have access to Node `fs` we recommend using `fs.createReadStream()`:
 await client.sdk.docs.upload({ file: fs.createReadStream('/path/to/file') });
@@ -87,7 +87,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 const response = await client.sdk.chat.sessions.create().catch(async (err) => {
-  if (err instanceof EmcBackendSDK.APIError) {
+  if (err instanceof Autofillr.APIError) {
     console.log(err.status); // 400
     console.log(err.name); // BadRequestError
     console.log(err.headers); // {server: 'nginx', ...}
@@ -121,7 +121,7 @@ You can use the `maxRetries` option to configure or disable this:
 <!-- prettier-ignore -->
 ```js
 // Configure the default for all requests:
-const client = new EmcBackendSDK({
+const client = new Autofillr({
   maxRetries: 0, // default is 2
 });
 
@@ -138,7 +138,7 @@ Requests time out after 1 minute by default. You can configure this with a `time
 <!-- prettier-ignore -->
 ```ts
 // Configure the default for all requests:
-const client = new EmcBackendSDK({
+const client = new Autofillr({
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
@@ -164,7 +164,7 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 
 <!-- prettier-ignore -->
 ```ts
-const client = new EmcBackendSDK();
+const client = new Autofillr();
 
 const response = await client.sdk.chat.sessions.create().asResponse();
 console.log(response.headers.get('X-My-Header'));
@@ -185,13 +185,13 @@ console.log(result);
 
 The log level can be configured in two ways:
 
-1. Via the `EMC_BACKEND_SDK_LOG` environment variable
+1. Via the `AUTOFILLR_LOG` environment variable
 2. Using the `logLevel` client option (overrides the environment variable if set)
 
 ```ts
-import EmcBackendSDK from 'autofillr-sdk';
+import Autofillr from 'autofillr-sdk';
 
-const client = new EmcBackendSDK({
+const client = new Autofillr({
   logLevel: 'debug', // Show all log messages
 });
 ```
@@ -217,13 +217,13 @@ When providing a custom logger, the `logLevel` option still controls which messa
 below the configured level will not be sent to your logger.
 
 ```ts
-import EmcBackendSDK from 'autofillr-sdk';
+import Autofillr from 'autofillr-sdk';
 import pino from 'pino';
 
 const logger = pino();
 
-const client = new EmcBackendSDK({
-  logger: logger.child({ name: 'EmcBackendSDK' }),
+const client = new Autofillr({
+  logger: logger.child({ name: 'Autofillr' }),
   logLevel: 'debug', // Send all messages to pino, allowing it to filter
 });
 ```
@@ -286,10 +286,10 @@ globalThis.fetch = fetch;
 Or pass it to the client:
 
 ```ts
-import EmcBackendSDK from 'autofillr-sdk';
+import Autofillr from 'autofillr-sdk';
 import fetch from 'my-fetch';
 
-const client = new EmcBackendSDK({ fetch });
+const client = new Autofillr({ fetch });
 ```
 
 ### Fetch options
@@ -297,9 +297,9 @@ const client = new EmcBackendSDK({ fetch });
 If you want to set custom `fetch` options without overriding the `fetch` function, you can provide a `fetchOptions` object when instantiating the client or making a request. (Request-specific options override client options.)
 
 ```ts
-import EmcBackendSDK from 'autofillr-sdk';
+import Autofillr from 'autofillr-sdk';
 
-const client = new EmcBackendSDK({
+const client = new Autofillr({
   fetchOptions: {
     // `RequestInit` options
   },
@@ -314,11 +314,11 @@ options to requests:
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/node.svg" align="top" width="18" height="21"> **Node** <sup>[[docs](https://github.com/nodejs/undici/blob/main/docs/docs/api/ProxyAgent.md#example---proxyagent-with-fetch)]</sup>
 
 ```ts
-import EmcBackendSDK from 'autofillr-sdk';
+import Autofillr from 'autofillr-sdk';
 import * as undici from 'undici';
 
 const proxyAgent = new undici.ProxyAgent('http://localhost:8888');
-const client = new EmcBackendSDK({
+const client = new Autofillr({
   fetchOptions: {
     dispatcher: proxyAgent,
   },
@@ -328,9 +328,9 @@ const client = new EmcBackendSDK({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/bun.svg" align="top" width="18" height="21"> **Bun** <sup>[[docs](https://bun.sh/guides/http/proxy)]</sup>
 
 ```ts
-import EmcBackendSDK from 'autofillr-sdk';
+import Autofillr from 'autofillr-sdk';
 
-const client = new EmcBackendSDK({
+const client = new Autofillr({
   fetchOptions: {
     proxy: 'http://localhost:8888',
   },
@@ -340,10 +340,10 @@ const client = new EmcBackendSDK({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/deno.svg" align="top" width="18" height="21"> **Deno** <sup>[[docs](https://docs.deno.com/api/deno/~/Deno.createHttpClient)]</sup>
 
 ```ts
-import EmcBackendSDK from 'npm:autofillr-sdk';
+import Autofillr from 'npm:autofillr-sdk';
 
 const httpClient = Deno.createHttpClient({ proxy: { url: 'http://localhost:8888' } });
-const client = new EmcBackendSDK({
+const client = new Autofillr({
   fetchOptions: {
     client: httpClient,
   },

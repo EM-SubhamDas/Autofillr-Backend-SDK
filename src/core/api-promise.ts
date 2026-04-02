@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { type EmcBackendSDK } from '../client';
+import { type Autofillr } from '../client';
 
 import { type PromiseOrValue } from '../internal/types';
 import { APIResponseProps, defaultParseResponse } from '../internal/parse';
@@ -11,13 +11,13 @@ import { APIResponseProps, defaultParseResponse } from '../internal/parse';
  */
 export class APIPromise<T> extends Promise<T> {
   private parsedPromise: Promise<T> | undefined;
-  #client: EmcBackendSDK;
+  #client: Autofillr;
 
   constructor(
-    client: EmcBackendSDK,
+    client: Autofillr,
     private responsePromise: Promise<APIResponseProps>,
     private parseResponse: (
-      client: EmcBackendSDK,
+      client: Autofillr,
       props: APIResponseProps,
     ) => PromiseOrValue<T> = defaultParseResponse,
   ) {

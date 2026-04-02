@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import EmcBackendSDK from 'autofillr-sdk';
+import Autofillr from 'autofillr-sdk';
 
-const client = new EmcBackendSDK({
+const client = new Autofillr({
   apiKey: 'My API Key',
   developerJwt: 'My Developer Jwt',
   adminJwt: 'My Admin Jwt',
@@ -27,7 +27,7 @@ describe('resource notifications', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.sdk.notifications.list({ page: 0, pageSize: 0 }, { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(EmcBackendSDK.NotFoundError);
+    ).rejects.toThrow(Autofillr.NotFoundError);
   });
 
   // Mock server tests are disabled

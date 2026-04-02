@@ -51,7 +51,7 @@ export interface ClientOptions {
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['EMC_BACKEND_SDK_BASE_URL'].
+   * Defaults to process.env['AUTOFILLR_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -105,7 +105,7 @@ export interface ClientOptions {
   /**
    * Set the log level.
    *
-   * Defaults to process.env['EMC_BACKEND_SDK_LOG'] or 'warn' if it isn't set.
+   * Defaults to process.env['AUTOFILLR_LOG'] or 'warn' if it isn't set.
    */
   logLevel?: LogLevel | undefined;
 
@@ -118,9 +118,9 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Emc Backend SDK API.
+ * API Client for interfacing with the Autofillr API.
  */
-export class EmcBackendSDK {
+export class Autofillr {
   apiKey: string | null;
   developerJwt: string | null;
   adminJwt: string | null;
@@ -138,12 +138,12 @@ export class EmcBackendSDK {
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Emc Backend SDK API.
+   * API Client for interfacing with the Autofillr API.
    *
    * @param {string | null | undefined} [opts.apiKey=process.env['EMC_BACKEND_SDK_API_KEY'] ?? null]
    * @param {string | null | undefined} [opts.developerJwt=process.env['EMC_BACKEND_SDK_DEVELOPER_JWT'] ?? null]
    * @param {string | null | undefined} [opts.adminJwt=process.env['EMC_BACKEND_SDK_ADMIN_JWT'] ?? null]
-   * @param {string} [opts.baseURL=process.env['EMC_BACKEND_SDK_BASE_URL'] ?? https://api.example.com] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['AUTOFILLR_BASE_URL'] ?? https://api.example.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -152,7 +152,7 @@ export class EmcBackendSDK {
    * @param {Record<string, string | undefined>} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    baseURL = readEnv('EMC_BACKEND_SDK_BASE_URL'),
+    baseURL = readEnv('AUTOFILLR_BASE_URL'),
     apiKey = readEnv('EMC_BACKEND_SDK_API_KEY') ?? null,
     developerJwt = readEnv('EMC_BACKEND_SDK_DEVELOPER_JWT') ?? null,
     adminJwt = readEnv('EMC_BACKEND_SDK_ADMIN_JWT') ?? null,
@@ -167,14 +167,14 @@ export class EmcBackendSDK {
     };
 
     this.baseURL = options.baseURL!;
-    this.timeout = options.timeout ?? EmcBackendSDK.DEFAULT_TIMEOUT /* 1 minute */;
+    this.timeout = options.timeout ?? Autofillr.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
     this.logLevel = defaultLogLevel;
     this.logLevel =
       parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
-      parseLogLevel(readEnv('EMC_BACKEND_SDK_LOG'), "process.env['EMC_BACKEND_SDK_LOG']", this) ??
+      parseLogLevel(readEnv('AUTOFILLR_LOG'), "process.env['AUTOFILLR_LOG']", this) ??
       defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;
@@ -770,10 +770,10 @@ export class EmcBackendSDK {
     }
   }
 
-  static EmcBackendSDK = this;
+  static Autofillr = this;
   static DEFAULT_TIMEOUT = 60000; // 1 minute
 
-  static EmcBackendSDKError = Errors.EmcBackendSDKError;
+  static AutofillrError = Errors.AutofillrError;
   static APIError = Errors.APIError;
   static APIConnectionError = Errors.APIConnectionError;
   static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
@@ -793,10 +793,10 @@ export class EmcBackendSDK {
   developers: API.Developers = new API.Developers(this);
 }
 
-EmcBackendSDK.SDK = SDK;
-EmcBackendSDK.Developers = Developers;
+Autofillr.SDK = SDK;
+Autofillr.Developers = Developers;
 
-export declare namespace EmcBackendSDK {
+export declare namespace Autofillr {
   export type RequestOptions = Opts.RequestOptions;
 
   export { SDK as SDK };
