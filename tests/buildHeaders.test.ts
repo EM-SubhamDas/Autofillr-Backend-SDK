@@ -1,5 +1,9 @@
 import { inspect } from 'node:util';
-import { buildHeaders, type HeadersLike, type NullableHeaders } from 'autofillr-sdk/internal/headers';
+import {
+  buildHeaders,
+  type HeadersLike,
+  type NullableHeaders,
+} from '@engineersmind/autofiller-sdk/internal/headers';
 
 function inspectNullableHeaders(headers: NullableHeaders) {
   return `NullableHeaders {${[

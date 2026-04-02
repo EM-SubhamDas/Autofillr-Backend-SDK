@@ -55,12 +55,12 @@ $ cd Autofillr-Backend-SDK
 # With yarn
 $ yarn link
 $ cd ../my-package
-$ yarn link autofillr-sdk
+$ yarn link @engineersmind/autofiller-sdk
 
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link --global autofillr-sdk
+$ pnpm link --global @engineersmind/autofiller-sdk
 ```
 
 ## Running tests

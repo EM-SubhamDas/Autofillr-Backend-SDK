@@ -8,8 +8,8 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "paths": {
-      "autofillr-sdk/*": ["./src/*"],
-      "autofillr-sdk": ["./src/index.ts"]
+      "@engineersmind/autofiller-sdk/*": ["./src/*"],
+      "@engineersmind/autofiller-sdk": ["./src/index.ts"]
     },
     "noEmit": true,
 
