@@ -33,10 +33,10 @@ export class Notifications extends APIResource {
    *
    * @example
    * ```ts
-   * await client.sdk.notifications.markRead();
+   * await client.sdk.notifications.markAsRead();
    * ```
    */
-  markRead(body: NotificationMarkReadParams, options?: RequestOptions): APIPromise<void> {
+  markAsRead(body: NotificationMarkAsReadParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post('/v1/sdk/notifications/read', {
       body,
       ...options,
@@ -52,7 +52,7 @@ export interface NotificationListParams {
   pageSize?: number;
 }
 
-export interface NotificationMarkReadParams {
+export interface NotificationMarkAsReadParams {
   /**
    * Notification ID. Omit to mark all.
    */
@@ -62,6 +62,6 @@ export interface NotificationMarkReadParams {
 export declare namespace Notifications {
   export {
     type NotificationListParams as NotificationListParams,
-    type NotificationMarkReadParams as NotificationMarkReadParams,
+    type NotificationMarkAsReadParams as NotificationMarkAsReadParams,
   };
 }

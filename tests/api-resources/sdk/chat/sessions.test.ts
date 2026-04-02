@@ -1,10 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Pdffillr from '@pdffillr/sdk';
+import EmcBackendSDK from 'emc-backend-sdk';
 
-const client = new Pdffillr({
+const client = new EmcBackendSDK({
   apiKey: 'My API Key',
   developerJwt: 'My Developer Jwt',
+  adminJwt: 'My Admin Jwt',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
@@ -63,8 +64,8 @@ describe('resource sessions', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('fill: only required params', async () => {
-    const responsePromise = client.sdk.chat.sessions.fill('sessionId', { pdf_doc_id: 17 });
+  test.skip('getMessages', async () => {
+    const responsePromise = client.sdk.chat.sessions.getMessages('sessionId');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -75,31 +76,31 @@ describe('resource sessions', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('fill: required and optional params', async () => {
-    const response = await client.sdk.chat.sessions.fill('sessionId', { pdf_doc_id: 17 });
-  });
-
-  // Mock server tests are disabled
-  test.skip('retrieveMessages', async () => {
-    const responsePromise = client.sdk.chat.sessions.retrieveMessages('sessionId');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Mock server tests are disabled
-  test.skip('retrieveMessages: request options and params are passed correctly', async () => {
+  test.skip('getMessages: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.sdk.chat.sessions.retrieveMessages(
+      client.sdk.chat.sessions.getMessages(
         'sessionId',
         { page: 0, size: 0 },
         { path: '/_stainless_unknown_path' },
       ),
-    ).rejects.toThrow(Pdffillr.NotFoundError);
+    ).rejects.toThrow(EmcBackendSDK.NotFoundError);
+  });
+
+  // Mock server tests are disabled
+  test.skip('triggerFill: only required params', async () => {
+    const responsePromise = client.sdk.chat.sessions.triggerFill('sessionId', { pdf_doc_id: 17 });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('triggerFill: required and optional params', async () => {
+    const response = await client.sdk.chat.sessions.triggerFill('sessionId', { pdf_doc_id: 17 });
   });
 });

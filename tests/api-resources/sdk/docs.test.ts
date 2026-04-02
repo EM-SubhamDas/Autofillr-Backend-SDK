@@ -1,17 +1,18 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Pdffillr, { toFile } from '@pdffillr/sdk';
+import EmcBackendSDK, { toFile } from 'emc-backend-sdk';
 
-const client = new Pdffillr({
+const client = new EmcBackendSDK({
   apiKey: 'My API Key',
   developerJwt: 'My Developer Jwt',
+  adminJwt: 'My Admin Jwt',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource docs', () => {
   // Mock server tests are disabled
-  test.skip('retrieve', async () => {
-    const responsePromise = client.sdk.docs.retrieve(0);
+  test.skip('delete', async () => {
+    const responsePromise = client.sdk.docs.delete(0);
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,8 +23,8 @@ describe('resource docs', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('delete', async () => {
-    const responsePromise = client.sdk.docs.delete(0);
+  test.skip('getMetadata', async () => {
+    const responsePromise = client.sdk.docs.getMetadata(0);
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

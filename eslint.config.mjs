@@ -25,7 +25,7 @@ export default tseslint.config(
         {
           patterns: [
             {
-              regex: '^@pdffillr/sdk(/.*)?',
+              regex: '^emc-backend-sdk(/.*)?',
               message: 'Use a relative import, not a package import.',
             },
           ],

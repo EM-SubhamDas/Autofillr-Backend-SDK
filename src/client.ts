@@ -34,21 +34,24 @@ import { isEmptyObj } from './internal/utils/values';
 
 export interface ClientOptions {
   /**
-   * Your SDK API key — use sk_live_xxx for server-side calls, pk_live_xxx for client-side. Obtain via developers.apiKeys.create() after registering and logging in.
-   *
+   * SDK API key — enter your sk_live_xxx or pk_live_xxx key (without the Bearer prefix)
    */
   apiKey?: string | null | undefined;
 
   /**
-   * Short-lived JWT for managing API keys. Obtain from developers.login(). Only needed for developers.apiKeys.create/list/delete/rotate — not for SDK API calls.
-   *
+   * Developer dashboard JWT — obtain from POST /v1/developers/login
    */
   developerJwt?: string | null | undefined;
 
   /**
+   * Admin JWT — obtain from POST /v1/admin/auth/login
+   */
+  adminJwt?: string | null | undefined;
+
+  /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['PDFFILLR_BASE_URL'].
+   * Defaults to process.env['EMC_BACKEND_SDK_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -102,7 +105,7 @@ export interface ClientOptions {
   /**
    * Set the log level.
    *
-   * Defaults to process.env['PDFFILLR_LOG'] or 'warn' if it isn't set.
+   * Defaults to process.env['EMC_BACKEND_SDK_LOG'] or 'warn' if it isn't set.
    */
   logLevel?: LogLevel | undefined;
 
@@ -115,11 +118,12 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Pdffillr API.
+ * API Client for interfacing with the Emc Backend SDK API.
  */
-export class Pdffillr {
+export class EmcBackendSDK {
   apiKey: string | null;
   developerJwt: string | null;
+  adminJwt: string | null;
 
   baseURL: string;
   maxRetries: number;
@@ -134,11 +138,12 @@ export class Pdffillr {
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Pdffillr API.
+   * API Client for interfacing with the Emc Backend SDK API.
    *
-   * @param {string | null | undefined} [opts.apiKey=process.env['PDFFILLR_API_KEY'] ?? null]
-   * @param {string | null | undefined} [opts.developerJwt=process.env['PDFFILLR_DEVELOPER_JWT'] ?? null]
-   * @param {string} [opts.baseURL=process.env['PDFFILLR_BASE_URL'] ?? https://dev-autofiller-backend.engineersmind.dev] - Override the default base URL for the API.
+   * @param {string | null | undefined} [opts.apiKey=process.env['EMC_BACKEND_SDK_API_KEY'] ?? null]
+   * @param {string | null | undefined} [opts.developerJwt=process.env['EMC_BACKEND_SDK_DEVELOPER_JWT'] ?? null]
+   * @param {string | null | undefined} [opts.adminJwt=process.env['EMC_BACKEND_SDK_ADMIN_JWT'] ?? null]
+   * @param {string} [opts.baseURL=process.env['EMC_BACKEND_SDK_BASE_URL'] ?? https://dev-autofiller-backend.engineersmind.dev] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -147,27 +152,29 @@ export class Pdffillr {
    * @param {Record<string, string | undefined>} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    baseURL = readEnv('PDFFILLR_BASE_URL'),
-    apiKey = readEnv('PDFFILLR_API_KEY') ?? null,
-    developerJwt = readEnv('PDFFILLR_DEVELOPER_JWT') ?? null,
+    baseURL = readEnv('EMC_BACKEND_SDK_BASE_URL'),
+    apiKey = readEnv('EMC_BACKEND_SDK_API_KEY') ?? null,
+    developerJwt = readEnv('EMC_BACKEND_SDK_DEVELOPER_JWT') ?? null,
+    adminJwt = readEnv('EMC_BACKEND_SDK_ADMIN_JWT') ?? null,
     ...opts
   }: ClientOptions = {}) {
     const options: ClientOptions = {
       apiKey,
       developerJwt,
+      adminJwt,
       ...opts,
       baseURL: baseURL || `https://dev-autofiller-backend.engineersmind.dev`,
     };
 
     this.baseURL = options.baseURL!;
-    this.timeout = options.timeout ?? Pdffillr.DEFAULT_TIMEOUT /* 1 minute */;
+    this.timeout = options.timeout ?? EmcBackendSDK.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
     this.logLevel = defaultLogLevel;
     this.logLevel =
       parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
-      parseLogLevel(readEnv('PDFFILLR_LOG'), "process.env['PDFFILLR_LOG']", this) ??
+      parseLogLevel(readEnv('EMC_BACKEND_SDK_LOG'), "process.env['EMC_BACKEND_SDK_LOG']", this) ??
       defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;
@@ -178,6 +185,7 @@ export class Pdffillr {
 
     this.apiKey = apiKey;
     this.developerJwt = developerJwt;
+    this.adminJwt = adminJwt;
   }
 
   /**
@@ -195,6 +203,7 @@ export class Pdffillr {
       fetchOptions: this.fetchOptions,
       apiKey: this.apiKey,
       developerJwt: this.developerJwt,
+      adminJwt: this.adminJwt,
       ...options,
     });
     return client;
@@ -226,18 +235,26 @@ export class Pdffillr {
       return;
     }
 
+    if (this.adminJwt && values.get('authorization')) {
+      return;
+    }
+    if (nulls.has('authorization')) {
+      return;
+    }
+
     throw new Error(
-      'Could not resolve authentication method. Expected either apiKey or developerJwt to be set. Or for one of the "Authorization" or "Authorization" headers to be explicitly omitted',
+      'Could not resolve authentication method. Expected one of apiKey, developerJwt or adminJwt to be set. Or for one of the "Authorization", "Authorization" or "Authorization" headers to be explicitly omitted',
     );
   }
 
   protected async authHeaders(
     opts: FinalRequestOptions,
-    schemes: { apiKeyAuth?: boolean; developerSessionAuth?: boolean },
+    schemes: { apiKeyAuth?: boolean; developerSessionAuth?: boolean; adminSessionAuth?: boolean },
   ): Promise<NullableHeaders | undefined> {
     return buildHeaders([
       schemes.apiKeyAuth ? await this.apiKeyAuth(opts) : null,
       schemes.developerSessionAuth ? await this.developerSessionAuth(opts) : null,
+      schemes.adminSessionAuth ? await this.adminSessionAuth(opts) : null,
     ]);
   }
 
@@ -253,6 +270,13 @@ export class Pdffillr {
       return undefined;
     }
     return buildHeaders([{ Authorization: `Bearer ${this.developerJwt}` }]);
+  }
+
+  protected async adminSessionAuth(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
+    if (this.adminJwt == null) {
+      return undefined;
+    }
+    return buildHeaders([{ Authorization: `Bearer ${this.adminJwt}` }]);
   }
 
   /**
@@ -681,7 +705,10 @@ export class Pdffillr {
         ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
         ...getPlatformHeaders(),
       },
-      await this.authHeaders(options, options.__security ?? { apiKeyAuth: true, developerSessionAuth: true }),
+      await this.authHeaders(
+        options,
+        options.__security ?? { apiKeyAuth: true, developerSessionAuth: true, adminSessionAuth: true },
+      ),
       this._options.defaultHeaders,
       bodyHeaders,
       options.headers,
@@ -743,10 +770,10 @@ export class Pdffillr {
     }
   }
 
-  static Pdffillr = this;
+  static EmcBackendSDK = this;
   static DEFAULT_TIMEOUT = 60000; // 1 minute
 
-  static PdffillrError = Errors.PdffillrError;
+  static EmcBackendSDKError = Errors.EmcBackendSDKError;
   static APIError = Errors.APIError;
   static APIConnectionError = Errors.APIConnectionError;
   static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
@@ -769,10 +796,10 @@ export class Pdffillr {
   developers: API.Developers = new API.Developers(this);
 }
 
-Pdffillr.SDK = SDK;
-Pdffillr.Developers = Developers;
+EmcBackendSDK.SDK = SDK;
+EmcBackendSDK.Developers = Developers;
 
-export declare namespace Pdffillr {
+export declare namespace EmcBackendSDK {
   export type RequestOptions = Opts.RequestOptions;
 
   export { SDK as SDK };

@@ -4,7 +4,7 @@ import { APIResource } from '../../core/resource';
 import * as DocsAPI from './docs';
 import { DocUploadFilledInfoParams, DocUploadParams, Docs } from './docs';
 import * as NotificationsAPI from './notifications';
-import { NotificationListParams, NotificationMarkReadParams, Notifications } from './notifications';
+import { NotificationListParams, NotificationMarkAsReadParams, Notifications } from './notifications';
 import * as ChatAPI from './chat/chat';
 import { Chat, ChatSendMessageParams } from './chat/chat';
 import * as FeedbackAPI from './feedback/feedback';
@@ -36,6 +36,6 @@ export declare namespace SDK {
   export {
     Notifications as Notifications,
     type NotificationListParams as NotificationListParams,
-    type NotificationMarkReadParams as NotificationMarkReadParams,
+    type NotificationMarkAsReadParams as NotificationMarkAsReadParams,
   };
 }
