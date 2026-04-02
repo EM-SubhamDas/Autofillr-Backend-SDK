@@ -1,8 +1,8 @@
 {
-  "name": "@engineersmind/autofiller-sdk",
+  "name": "@pdffillr/sdk",
   "version": "0.2.0",
-  "description": "The official TypeScript library for the Engineersmind API",
-  "author": "Engineersmind <support@pdffillr.com>",
+  "description": "The official TypeScript library for the Pdffillr API",
+  "author": "Pdffillr <support@pdffillr.com>",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "type": "commonjs",

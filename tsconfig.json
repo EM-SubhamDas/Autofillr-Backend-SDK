@@ -8,8 +8,8 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "paths": {
-      "@engineersmind/autofiller-sdk/*": ["./src/*"],
-      "@engineersmind/autofiller-sdk": ["./src/index.ts"]
+      "@pdffillr/sdk/*": ["./src/*"],
+      "@pdffillr/sdk": ["./src/index.ts"]
     },
     "noEmit": true,
 
