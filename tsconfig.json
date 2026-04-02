@@ -8,8 +8,8 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "paths": {
-      "emc-backend-sdk/*": ["./src/*"],
-      "emc-backend-sdk": ["./src/index.ts"]
+      "@pdffillr/sdk/*": ["./src/*"],
+      "@pdffillr/sdk": ["./src/index.ts"]
     },
     "noEmit": true,
 

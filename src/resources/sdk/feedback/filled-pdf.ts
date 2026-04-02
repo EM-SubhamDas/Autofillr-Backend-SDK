@@ -36,7 +36,7 @@ export class FilledPdf extends APIResource {
    *
    * @example
    * ```ts
-   * await client.sdk.feedback.filledPdf.recordSave({
+   * await client.sdk.feedback.filledPdf.recordSaveEvent({
    *   filled_pdf_location:
    *     'filled-pdfs/dev-123/session-abc/v1.pdf',
    *   pdf_id: '42',
@@ -44,7 +44,7 @@ export class FilledPdf extends APIResource {
    * });
    * ```
    */
-  recordSave(body: FilledPdfRecordSaveParams, options?: RequestOptions): APIPromise<void> {
+  recordSaveEvent(body: FilledPdfRecordSaveEventParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post('/v1/sdk/feedback/filled-pdf', {
       body,
       ...options,
@@ -60,7 +60,7 @@ export interface FilledPdfGetVersionHistoryParams {
   session_id: string;
 }
 
-export interface FilledPdfRecordSaveParams {
+export interface FilledPdfRecordSaveEventParams {
   /**
    * S3 key or URL where the filled PDF is stored.
    */
@@ -74,6 +74,6 @@ export interface FilledPdfRecordSaveParams {
 export declare namespace FilledPdf {
   export {
     type FilledPdfGetVersionHistoryParams as FilledPdfGetVersionHistoryParams,
-    type FilledPdfRecordSaveParams as FilledPdfRecordSaveParams,
+    type FilledPdfRecordSaveEventParams as FilledPdfRecordSaveEventParams,
   };
 }

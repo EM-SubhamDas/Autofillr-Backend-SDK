@@ -4,6 +4,6 @@ export { Feedback } from './feedback';
 export {
   FilledPdf,
   type FilledPdfGetVersionHistoryParams,
-  type FilledPdfRecordSaveParams,
+  type FilledPdfRecordSaveEventParams,
 } from './filled-pdf';
 export { User, type UserListParams, type UserSubmitParams } from './user';
