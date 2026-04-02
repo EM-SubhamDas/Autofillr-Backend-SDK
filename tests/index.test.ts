@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIPromise } from '@engineersmind/autofiller-sdk/core/api-promise';
+import { APIPromise } from '@pdffillr/sdk/core/api-promise';
 
 import util from 'node:util';
-import Engineersmind from '@engineersmind/autofiller-sdk';
-import { APIUserAbortError } from '@engineersmind/autofiller-sdk';
+import Pdffillr from '@pdffillr/sdk';
+import { APIUserAbortError } from '@pdffillr/sdk';
 const defaultFetch = fetch;
 
 describe('instantiate client', () => {
@@ -20,7 +20,7 @@ describe('instantiate client', () => {
   });
 
   describe('defaultHeaders', () => {
-    const client = new Engineersmind({
+    const client = new Pdffillr({
       baseURL: 'http://localhost:5000/',
       defaultHeaders: { 'X-My-Default-Header': '2' },
       apiKey: 'My API Key',
@@ -55,14 +55,14 @@ describe('instantiate client', () => {
 
     beforeEach(() => {
       process.env = { ...env };
-      process.env['ENGINEERSMIND_LOG'] = undefined;
+      process.env['PDFFILLR_LOG'] = undefined;
     });
 
     afterEach(() => {
       process.env = env;
     });
 
-    const forceAPIResponseForClient = async (client: Engineersmind) => {
+    const forceAPIResponseForClient = async (client: Pdffillr) => {
       await new APIPromise(
         client,
         Promise.resolve({
@@ -88,7 +88,7 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      const client = new Engineersmind({
+      const client = new Pdffillr({
         logger: logger,
         logLevel: 'debug',
         apiKey: 'My API Key',
@@ -100,7 +100,7 @@ describe('instantiate client', () => {
     });
 
     test('default logLevel is warn', async () => {
-      const client = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
+      const client = new Pdffillr({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
       expect(client.logLevel).toBe('warn');
     });
 
@@ -113,7 +113,7 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      const client = new Engineersmind({
+      const client = new Pdffillr({
         logger: logger,
         logLevel: 'info',
         apiKey: 'My API Key',
@@ -133,8 +133,8 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['ENGINEERSMIND_LOG'] = 'debug';
-      const client = new Engineersmind({
+      process.env['PDFFILLR_LOG'] = 'debug';
+      const client = new Pdffillr({
         logger: logger,
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
@@ -154,15 +154,15 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['ENGINEERSMIND_LOG'] = 'not a log level';
-      const client = new Engineersmind({
+      process.env['PDFFILLR_LOG'] = 'not a log level';
+      const client = new Pdffillr({
         logger: logger,
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
       });
       expect(client.logLevel).toBe('warn');
       expect(warnMock).toHaveBeenCalledWith(
-        'process.env[\'ENGINEERSMIND_LOG\'] was set to "not a log level", expected one of ["off","error","warn","info","debug"]',
+        'process.env[\'PDFFILLR_LOG\'] was set to "not a log level", expected one of ["off","error","warn","info","debug"]',
       );
     });
 
@@ -175,8 +175,8 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['ENGINEERSMIND_LOG'] = 'debug';
-      const client = new Engineersmind({
+      process.env['PDFFILLR_LOG'] = 'debug';
+      const client = new Pdffillr({
         logger: logger,
         logLevel: 'off',
         apiKey: 'My API Key',
@@ -196,8 +196,8 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['ENGINEERSMIND_LOG'] = 'not a log level';
-      const client = new Engineersmind({
+      process.env['PDFFILLR_LOG'] = 'not a log level';
+      const client = new Pdffillr({
         logger: logger,
         logLevel: 'debug',
         apiKey: 'My API Key',
@@ -210,7 +210,7 @@ describe('instantiate client', () => {
 
   describe('defaultQuery', () => {
     test('with null query params given', () => {
-      const client = new Engineersmind({
+      const client = new Pdffillr({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo' },
         apiKey: 'My API Key',
@@ -220,7 +220,7 @@ describe('instantiate client', () => {
     });
 
     test('multiple default query params', () => {
-      const client = new Engineersmind({
+      const client = new Pdffillr({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo', hello: 'world' },
         apiKey: 'My API Key',
@@ -230,7 +230,7 @@ describe('instantiate client', () => {
     });
 
     test('overriding with `undefined`', () => {
-      const client = new Engineersmind({
+      const client = new Pdffillr({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { hello: 'world' },
         apiKey: 'My API Key',
@@ -241,7 +241,7 @@ describe('instantiate client', () => {
   });
 
   test('custom fetch', async () => {
-    const client = new Engineersmind({
+    const client = new Pdffillr({
       baseURL: 'http://localhost:5000/',
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
@@ -260,7 +260,7 @@ describe('instantiate client', () => {
 
   test('explicit global fetch', async () => {
     // make sure the global fetch type is assignable to our Fetch type
-    const client = new Engineersmind({
+    const client = new Pdffillr({
       baseURL: 'http://localhost:5000/',
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
@@ -269,7 +269,7 @@ describe('instantiate client', () => {
   });
 
   test('custom signal', async () => {
-    const client = new Engineersmind({
+    const client = new Pdffillr({
       baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
@@ -302,7 +302,7 @@ describe('instantiate client', () => {
       return new Response(JSON.stringify({}), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Engineersmind({
+    const client = new Pdffillr({
       baseURL: 'http://localhost:5000/',
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
@@ -315,7 +315,7 @@ describe('instantiate client', () => {
 
   describe('baseUrl', () => {
     test('trailing slash', () => {
-      const client = new Engineersmind({
+      const client = new Pdffillr({
         baseURL: 'http://localhost:5000/custom/path/',
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
@@ -324,7 +324,7 @@ describe('instantiate client', () => {
     });
 
     test('no trailing slash', () => {
-      const client = new Engineersmind({
+      const client = new Pdffillr({
         baseURL: 'http://localhost:5000/custom/path',
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
@@ -333,11 +333,11 @@ describe('instantiate client', () => {
     });
 
     afterEach(() => {
-      process.env['ENGINEERSMIND_BASE_URL'] = undefined;
+      process.env['PDFFILLR_BASE_URL'] = undefined;
     });
 
     test('explicit option', () => {
-      const client = new Engineersmind({
+      const client = new Pdffillr({
         baseURL: 'https://example.com',
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
@@ -346,32 +346,32 @@ describe('instantiate client', () => {
     });
 
     test('env variable', () => {
-      process.env['ENGINEERSMIND_BASE_URL'] = 'https://example.com/from_env';
-      const client = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
+      process.env['PDFFILLR_BASE_URL'] = 'https://example.com/from_env';
+      const client = new Pdffillr({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
       expect(client.baseURL).toEqual('https://example.com/from_env');
     });
 
     test('empty env variable', () => {
-      process.env['ENGINEERSMIND_BASE_URL'] = ''; // empty
-      const client = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
+      process.env['PDFFILLR_BASE_URL'] = ''; // empty
+      const client = new Pdffillr({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
       expect(client.baseURL).toEqual('https://dev-autofiller-backend.engineersmind.dev');
     });
 
     test('blank env variable', () => {
-      process.env['ENGINEERSMIND_BASE_URL'] = '  '; // blank
-      const client = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
+      process.env['PDFFILLR_BASE_URL'] = '  '; // blank
+      const client = new Pdffillr({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
       expect(client.baseURL).toEqual('https://dev-autofiller-backend.engineersmind.dev');
     });
 
     test('in request options', () => {
-      const client = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
+      const client = new Pdffillr({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
       expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
         'http://localhost:5000/option/foo',
       );
     });
 
     test('in request options overridden by client options', () => {
-      const client = new Engineersmind({
+      const client = new Pdffillr({
         apiKey: 'My API Key',
         developerJwt: 'My Developer Jwt',
         baseURL: 'http://localhost:5000/client',
@@ -382,8 +382,8 @@ describe('instantiate client', () => {
     });
 
     test('in request options overridden by env variable', () => {
-      process.env['ENGINEERSMIND_BASE_URL'] = 'http://localhost:5000/env';
-      const client = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
+      process.env['PDFFILLR_BASE_URL'] = 'http://localhost:5000/env';
+      const client = new Pdffillr({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
       expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
         'http://localhost:5000/env/foo',
       );
@@ -391,7 +391,7 @@ describe('instantiate client', () => {
   });
 
   test('maxRetries option is correctly set', () => {
-    const client = new Engineersmind({
+    const client = new Pdffillr({
       maxRetries: 4,
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
@@ -399,13 +399,13 @@ describe('instantiate client', () => {
     expect(client.maxRetries).toEqual(4);
 
     // default
-    const client2 = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
+    const client2 = new Pdffillr({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
     expect(client2.maxRetries).toEqual(2);
   });
 
   describe('withOptions', () => {
     test('creates a new client with overridden options', async () => {
-      const client = new Engineersmind({
+      const client = new Pdffillr({
         baseURL: 'http://localhost:5000/',
         maxRetries: 3,
         apiKey: 'My API Key',
@@ -431,7 +431,7 @@ describe('instantiate client', () => {
     });
 
     test('inherits options from the parent client', async () => {
-      const client = new Engineersmind({
+      const client = new Pdffillr({
         baseURL: 'http://localhost:5000/',
         defaultHeaders: { 'X-Test-Header': 'test-value' },
         defaultQuery: { 'test-param': 'test-value' },
@@ -451,7 +451,7 @@ describe('instantiate client', () => {
     });
 
     test('respects runtime property changes when creating new client', () => {
-      const client = new Engineersmind({
+      const client = new Pdffillr({
         baseURL: 'http://localhost:5000/',
         timeout: 1000,
         apiKey: 'My API Key',
@@ -484,25 +484,25 @@ describe('instantiate client', () => {
 
   test('with environment variable arguments', () => {
     // set options via env var
-    process.env['AUTOFILLER_API_KEY'] = 'My API Key';
-    process.env['AUTOFILLER_DEVELOPER_JWT'] = 'My Developer Jwt';
-    const client = new Engineersmind();
+    process.env['PDFFILLR_API_KEY'] = 'My API Key';
+    process.env['PDFFILLR_DEVELOPER_JWT'] = 'My Developer Jwt';
+    const client = new Pdffillr();
     expect(client.apiKey).toBe('My API Key');
     expect(client.developerJwt).toBe('My Developer Jwt');
   });
 
   test('with overridden environment variable arguments', () => {
     // set options via env var
-    process.env['AUTOFILLER_API_KEY'] = 'another My API Key';
-    process.env['AUTOFILLER_DEVELOPER_JWT'] = 'another My Developer Jwt';
-    const client = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
+    process.env['PDFFILLR_API_KEY'] = 'another My API Key';
+    process.env['PDFFILLR_DEVELOPER_JWT'] = 'another My Developer Jwt';
+    const client = new Pdffillr({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
     expect(client.apiKey).toBe('My API Key');
     expect(client.developerJwt).toBe('My Developer Jwt');
   });
 });
 
 describe('request building', () => {
-  const client = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
+  const client = new Pdffillr({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
 
   describe('custom headers', () => {
     test('handles undefined', async () => {
@@ -521,7 +521,7 @@ describe('request building', () => {
 });
 
 describe('default encoder', () => {
-  const client = new Engineersmind({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
+  const client = new Pdffillr({ apiKey: 'My API Key', developerJwt: 'My Developer Jwt' });
 
   class Serializable {
     toJSON() {
@@ -606,7 +606,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Engineersmind({
+    const client = new Pdffillr({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
       timeout: 10,
@@ -641,7 +641,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Engineersmind({
+    const client = new Pdffillr({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
       fetch: testFetch,
@@ -670,7 +670,7 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new Engineersmind({
+    const client = new Pdffillr({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
       fetch: testFetch,
@@ -704,7 +704,7 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new Engineersmind({
+    const client = new Pdffillr({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
       fetch: testFetch,
@@ -738,7 +738,7 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new Engineersmind({
+    const client = new Pdffillr({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
       fetch: testFetch,
@@ -773,7 +773,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Engineersmind({
+    const client = new Pdffillr({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
       fetch: testFetch,
@@ -807,7 +807,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Engineersmind({
+    const client = new Pdffillr({
       apiKey: 'My API Key',
       developerJwt: 'My Developer Jwt',
       fetch: testFetch,

@@ -1,8 +1,8 @@
-# Engineersmind TypeScript API Library
+# Pdffillr TypeScript API Library
 
-[![NPM version](<https://img.shields.io/npm/v/@engineersmind/autofiller-sdk.svg?label=npm%20(stable)>)](https://npmjs.org/package/@engineersmind/autofiller-sdk) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@engineersmind/autofiller-sdk)
+[![NPM version](<https://img.shields.io/npm/v/@pdffillr/sdk.svg?label=npm%20(stable)>)](https://npmjs.org/package/@pdffillr/sdk) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@pdffillr/sdk)
 
-This library provides convenient access to the Engineersmind REST API from server-side TypeScript or JavaScript.
+This library provides convenient access to the Pdffillr REST API from server-side TypeScript or JavaScript.
 
 The REST API documentation can be found on [dev-autofiller-backend.engineersmind.dev](https://dev-autofiller-backend.engineersmind.dev/api/sdk/external-reference). The full API of this library can be found in [api.md](api.md).
 
@@ -15,7 +15,7 @@ npm install git+ssh://git@github.com:EM-SubhamDas/Autofillr-Backend-SDK.git
 ```
 
 > [!NOTE]
-> Once this package is [published to npm](https://www.stainless.com/docs/guides/publish), this will become: `npm install @engineersmind/autofiller-sdk`
+> Once this package is [published to npm](https://www.stainless.com/docs/guides/publish), this will become: `npm install @pdffillr/sdk`
 
 ## Usage
 
@@ -23,10 +23,10 @@ The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import Engineersmind from '@engineersmind/autofiller-sdk';
+import Pdffillr from '@pdffillr/sdk';
 
-const client = new Engineersmind({
-  apiKey: process.env['AUTOFILLER_API_KEY'], // This is the default and can be omitted
+const client = new Pdffillr({
+  apiKey: process.env['PDFFILLR_API_KEY'], // This is the default and can be omitted
 });
 
 await client.sdk.chat.sessions.create({ title: 'My first session' });
@@ -38,13 +38,13 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import Engineersmind from '@engineersmind/autofiller-sdk';
+import Pdffillr from '@pdffillr/sdk';
 
-const client = new Engineersmind({
-  apiKey: process.env['AUTOFILLER_API_KEY'], // This is the default and can be omitted
+const client = new Pdffillr({
+  apiKey: process.env['PDFFILLR_API_KEY'], // This is the default and can be omitted
 });
 
-const params: Engineersmind.DeveloperRegisterParams = {
+const params: Pdffillr.DeveloperRegisterParams = {
   display_name: 'Your Name',
   email: 'developer@example.com',
   password: 'your-password',
@@ -65,9 +65,9 @@ Request parameters that correspond to file uploads can be passed in many differe
 
 ```ts
 import fs from 'fs';
-import Engineersmind, { toFile } from '@engineersmind/autofiller-sdk';
+import Pdffillr, { toFile } from '@pdffillr/sdk';
 
-const client = new Engineersmind();
+const client = new Pdffillr();
 
 // If you have access to Node `fs` we recommend using `fs.createReadStream()`:
 await client.sdk.docs.upload({ file: fs.createReadStream('/path/to/file') });
@@ -98,7 +98,7 @@ const response = await client.developers
     password: 'your-password',
   })
   .catch(async (err) => {
-    if (err instanceof Engineersmind.APIError) {
+    if (err instanceof Pdffillr.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
       console.log(err.headers); // {server: 'nginx', ...}
@@ -132,7 +132,7 @@ You can use the `maxRetries` option to configure or disable this:
 <!-- prettier-ignore -->
 ```js
 // Configure the default for all requests:
-const client = new Engineersmind({
+const client = new Pdffillr({
   maxRetries: 0, // default is 2
 });
 
@@ -153,7 +153,7 @@ Requests time out after 1 minute by default. You can configure this with a `time
 <!-- prettier-ignore -->
 ```ts
 // Configure the default for all requests:
-const client = new Engineersmind({
+const client = new Pdffillr({
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
@@ -183,7 +183,7 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 
 <!-- prettier-ignore -->
 ```ts
-const client = new Engineersmind();
+const client = new Pdffillr();
 
 const response = await client.developers
   .register({
@@ -216,13 +216,13 @@ console.log(result);
 
 The log level can be configured in two ways:
 
-1. Via the `ENGINEERSMIND_LOG` environment variable
+1. Via the `PDFFILLR_LOG` environment variable
 2. Using the `logLevel` client option (overrides the environment variable if set)
 
 ```ts
-import Engineersmind from '@engineersmind/autofiller-sdk';
+import Pdffillr from '@pdffillr/sdk';
 
-const client = new Engineersmind({
+const client = new Pdffillr({
   logLevel: 'debug', // Show all log messages
 });
 ```
@@ -248,13 +248,13 @@ When providing a custom logger, the `logLevel` option still controls which messa
 below the configured level will not be sent to your logger.
 
 ```ts
-import Engineersmind from '@engineersmind/autofiller-sdk';
+import Pdffillr from '@pdffillr/sdk';
 import pino from 'pino';
 
 const logger = pino();
 
-const client = new Engineersmind({
-  logger: logger.child({ name: 'Engineersmind' }),
+const client = new Pdffillr({
+  logger: logger.child({ name: 'Pdffillr' }),
   logLevel: 'debug', // Send all messages to pino, allowing it to filter
 });
 ```
@@ -317,10 +317,10 @@ globalThis.fetch = fetch;
 Or pass it to the client:
 
 ```ts
-import Engineersmind from '@engineersmind/autofiller-sdk';
+import Pdffillr from '@pdffillr/sdk';
 import fetch from 'my-fetch';
 
-const client = new Engineersmind({ fetch });
+const client = new Pdffillr({ fetch });
 ```
 
 ### Fetch options
@@ -328,9 +328,9 @@ const client = new Engineersmind({ fetch });
 If you want to set custom `fetch` options without overriding the `fetch` function, you can provide a `fetchOptions` object when instantiating the client or making a request. (Request-specific options override client options.)
 
 ```ts
-import Engineersmind from '@engineersmind/autofiller-sdk';
+import Pdffillr from '@pdffillr/sdk';
 
-const client = new Engineersmind({
+const client = new Pdffillr({
   fetchOptions: {
     // `RequestInit` options
   },
@@ -345,11 +345,11 @@ options to requests:
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/node.svg" align="top" width="18" height="21"> **Node** <sup>[[docs](https://github.com/nodejs/undici/blob/main/docs/docs/api/ProxyAgent.md#example---proxyagent-with-fetch)]</sup>
 
 ```ts
-import Engineersmind from '@engineersmind/autofiller-sdk';
+import Pdffillr from '@pdffillr/sdk';
 import * as undici from 'undici';
 
 const proxyAgent = new undici.ProxyAgent('http://localhost:8888');
-const client = new Engineersmind({
+const client = new Pdffillr({
   fetchOptions: {
     dispatcher: proxyAgent,
   },
@@ -359,9 +359,9 @@ const client = new Engineersmind({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/bun.svg" align="top" width="18" height="21"> **Bun** <sup>[[docs](https://bun.sh/guides/http/proxy)]</sup>
 
 ```ts
-import Engineersmind from '@engineersmind/autofiller-sdk';
+import Pdffillr from '@pdffillr/sdk';
 
-const client = new Engineersmind({
+const client = new Pdffillr({
   fetchOptions: {
     proxy: 'http://localhost:8888',
   },
@@ -371,10 +371,10 @@ const client = new Engineersmind({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/deno.svg" align="top" width="18" height="21"> **Deno** <sup>[[docs](https://docs.deno.com/api/deno/~/Deno.createHttpClient)]</sup>
 
 ```ts
-import Engineersmind from 'npm:@engineersmind/autofiller-sdk';
+import Pdffillr from 'npm:@pdffillr/sdk';
 
 const httpClient = Deno.createHttpClient({ proxy: { url: 'http://localhost:8888' } });
-const client = new Engineersmind({
+const client = new Pdffillr({
   fetchOptions: {
     client: httpClient,
   },

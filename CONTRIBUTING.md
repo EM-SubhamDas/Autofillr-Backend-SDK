@@ -55,12 +55,12 @@ $ cd Autofillr-Backend-SDK
 # With yarn
 $ yarn link
 $ cd ../my-package
-$ yarn link @engineersmind/autofiller-sdk
+$ yarn link @pdffillr/sdk
 
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link --global @engineersmind/autofiller-sdk
+$ pnpm link --global @pdffillr/sdk
 ```
 
 ## Running tests
