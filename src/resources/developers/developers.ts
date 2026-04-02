@@ -7,18 +7,15 @@ import { APIPromise } from '../../core/api-promise';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
+/**
+ * Register an account, log in, and manage API keys. Start here to get your sk_live_xxx secret key.
+ */
 export class Developers extends APIResource {
   apiKeys: APIKeysAPI.APIKeys = new APIKeysAPI.APIKeys(this._client);
 
   /**
-   * Authenticates with email and password and returns a short-lived JWT
-   * (`developer-session` token) for managing API keys via the dashboard endpoints.
-   *
-   * **This token is NOT used for SDK API calls.** To call SDK endpoints (documents,
-   * chat, feedback, notifications), use your `sk_live_xxx` secret key directly in
-   * the `Authorization: Bearer` header.
-   *
-   * The session token expires after a short period. Re-login when it expires.
+   * Returns a short-lived `developer-session` JWT for managing API keys. **Not used
+   * for SDK API calls** — use `sk_live_xxx` for those.
    *
    * @example
    * ```ts
@@ -37,16 +34,8 @@ export class Developers extends APIResource {
   }
 
   /**
-   * Creates a new developer account and automatically generates a default API key
-   * pair (`pk_live_xxx` public key + `sk_live_xxx` secret key).
-   *
-   * **Important:** The `secret_key` (`sk_live_xxx`) is returned **only once** in
-   * this response. Copy and store it immediately in a secure location (e.g. an
-   * environment variable or secrets manager). It cannot be retrieved again — if
-   * lost, rotate the key via `POST /v1/developers/api-keys/{keyId}/rotate`.
-   *
-   * The `public_key` (`pk_live_xxx`) can be used in client-side contexts where it is
-   * acceptable to expose the key. Use the `secret_key` only in server-side code.
+   * Creates an account and generates a default API key pair (`pk_live_xxx` +
+   * `sk_live_xxx`). **The `secret_key` is shown only once** — store it immediately.
    *
    * @example
    * ```ts
@@ -66,9 +55,8 @@ export class Developers extends APIResource {
   }
 
   /**
-   * Returns the profile of the currently authenticated developer including account
-   * details and usage stats. Requires a valid `developer-session` token obtained
-   * from `POST /v1/developers/login`.
+   * Returns the authenticated developer's profile. Requires `developer-session`
+   * token from `POST /v1/developers/login`.
    *
    * @example
    * ```ts
