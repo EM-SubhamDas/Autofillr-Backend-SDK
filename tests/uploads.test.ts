@@ -1,6 +1,6 @@
 import fs from 'fs';
-import type { ResponseLike } from '@pdffillr/sdk/internal/to-file';
-import { toFile } from '@pdffillr/sdk/core/uploads';
+import type { ResponseLike } from 'emc-backend-sdk/internal/to-file';
+import { toFile } from 'emc-backend-sdk/core/uploads';
 import { File } from 'node:buffer';
 
 class MyClass {
@@ -97,7 +97,7 @@ describe('missing File error message', () => {
   });
 
   test('is thrown', async () => {
-    const uploads = await import('@pdffillr/sdk/core/uploads');
+    const uploads = await import('emc-backend-sdk/core/uploads');
     await expect(
       uploads.toFile(mockResponse({ url: 'https://example.com/my/audio.mp3' })),
     ).rejects.toMatchInlineSnapshot(

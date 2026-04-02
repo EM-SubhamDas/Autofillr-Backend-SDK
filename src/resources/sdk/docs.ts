@@ -13,23 +13,6 @@ import { path } from '../../internal/utils/path';
  */
 export class Docs extends APIResource {
   /**
-   * Returns metadata for a document — `doc_id`, filename, MIME type, fill status,
-   * and S3 key.
-   *
-   * @example
-   * ```ts
-   * await client.sdk.docs.retrieve(0);
-   * ```
-   */
-  retrieve(docID: number, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/v1/sdk/docs/${docID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: { apiKeyAuth: true },
-    });
-  }
-
-  /**
    * Permanently deletes a document and its S3 object. In-progress fill jobs
    * referencing this document will fail.
    *
@@ -40,6 +23,23 @@ export class Docs extends APIResource {
    */
   delete(docID: number, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/v1/sdk/docs/${docID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+      __security: { apiKeyAuth: true },
+    });
+  }
+
+  /**
+   * Returns metadata for a document — `doc_id`, filename, MIME type, fill status,
+   * and S3 key.
+   *
+   * @example
+   * ```ts
+   * await client.sdk.docs.getMetadata(0);
+   * ```
+   */
+  getMetadata(docID: number, options?: RequestOptions): APIPromise<void> {
+    return this._client.get(path`/v1/sdk/docs/${docID}`, {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
       __security: { apiKeyAuth: true },

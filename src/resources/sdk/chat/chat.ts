@@ -5,8 +5,8 @@ import * as SessionsAPI from './sessions';
 import {
   SessionAttachDocumentParams,
   SessionCreateParams,
-  SessionFillParams,
-  SessionRetrieveMessagesParams,
+  SessionGetMessagesParams,
+  SessionTriggerFillParams,
   Sessions,
 } from './sessions';
 import { APIPromise } from '../../../core/api-promise';
@@ -59,7 +59,7 @@ export declare namespace Chat {
     Sessions as Sessions,
     type SessionCreateParams as SessionCreateParams,
     type SessionAttachDocumentParams as SessionAttachDocumentParams,
-    type SessionFillParams as SessionFillParams,
-    type SessionRetrieveMessagesParams as SessionRetrieveMessagesParams,
+    type SessionGetMessagesParams as SessionGetMessagesParams,
+    type SessionTriggerFillParams as SessionTriggerFillParams,
   };
 }

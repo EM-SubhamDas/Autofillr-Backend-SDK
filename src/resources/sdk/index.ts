@@ -3,5 +3,9 @@
 export { Chat, type ChatSendMessageParams } from './chat/index';
 export { Docs, type DocUploadParams, type DocUploadFilledInfoParams } from './docs';
 export { Feedback } from './feedback/index';
-export { Notifications, type NotificationListParams, type NotificationMarkReadParams } from './notifications';
+export {
+  Notifications,
+  type NotificationListParams,
+  type NotificationMarkAsReadParams,
+} from './notifications';
 export { SDK } from './sdk';

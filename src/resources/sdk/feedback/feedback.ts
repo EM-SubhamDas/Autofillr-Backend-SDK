@@ -2,7 +2,7 @@
 
 import { APIResource } from '../../../core/resource';
 import * as FilledPdfAPI from './filled-pdf';
-import { FilledPdf, FilledPdfGetVersionHistoryParams, FilledPdfRecordSaveEventParams } from './filled-pdf';
+import { FilledPdf, FilledPdfGetVersionHistoryParams, FilledPdfRecordSaveParams } from './filled-pdf';
 import * as UserAPI from './user';
 import { User, UserListParams, UserSubmitParams } from './user';
 
@@ -20,6 +20,6 @@ export declare namespace Feedback {
   export {
     FilledPdf as FilledPdf,
     type FilledPdfGetVersionHistoryParams as FilledPdfGetVersionHistoryParams,
-    type FilledPdfRecordSaveEventParams as FilledPdfRecordSaveEventParams,
+    type FilledPdfRecordSaveParams as FilledPdfRecordSaveParams,
   };
 }

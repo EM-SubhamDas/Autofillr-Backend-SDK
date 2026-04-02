@@ -87,21 +87,21 @@ export class Sessions extends APIResource {
   }
 
   /**
-   * Queues a fill job using field values collected during this chat session.
-   * **Workflow:** (1) Upload PDF → `doc_id`. (2) Create session. (3) Attach PDF. (4)
-   * Chat with AI. (5) Call this endpoint with `pdf_doc_id`. (6) Poll
-   * `GET /v1/sdk/docs/{pdf_doc_id}/result` until `ready`. (7) Download.
+   * Returns paginated message history in chronological order. Query params: `page`
+   * (0-based, default 0), `size` (1–100, default 50).
    *
    * @example
    * ```ts
-   * await client.sdk.chat.sessions.fill('sessionId', {
-   *   pdf_doc_id: 17,
-   * });
+   * await client.sdk.chat.sessions.getMessages('sessionId');
    * ```
    */
-  fill(sessionID: string, body: SessionFillParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/v1/sdk/chat/sessions/${sessionID}/fill`, {
-      body,
+  getMessages(
+    sessionID: string,
+    query: SessionGetMessagesParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<void> {
+    return this._client.get(path`/v1/sdk/chat/sessions/${sessionID}/messages`, {
+      query,
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
       __security: { apiKeyAuth: true },
@@ -109,23 +109,21 @@ export class Sessions extends APIResource {
   }
 
   /**
-   * Returns paginated message history in chronological order. Query params: `page`
-   * (0-based, default 0), `size` (1–100, default 50).
+   * Queues a fill job using field values collected during this chat session.
+   * **Workflow:** (1) Upload PDF → `doc_id`. (2) Create session. (3) Attach PDF. (4)
+   * Chat with AI. (5) Call this endpoint with `pdf_doc_id`. (6) Poll
+   * `GET /v1/sdk/docs/{pdf_doc_id}/result` until `ready`. (7) Download.
    *
    * @example
    * ```ts
-   * await client.sdk.chat.sessions.retrieveMessages(
-   *   'sessionId',
-   * );
+   * await client.sdk.chat.sessions.triggerFill('sessionId', {
+   *   pdf_doc_id: 17,
+   * });
    * ```
    */
-  retrieveMessages(
-    sessionID: string,
-    query: SessionRetrieveMessagesParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<void> {
-    return this._client.get(path`/v1/sdk/chat/sessions/${sessionID}/messages`, {
-      query,
+  triggerFill(sessionID: string, body: SessionTriggerFillParams, options?: RequestOptions): APIPromise<void> {
+    return this._client.post(path`/v1/sdk/chat/sessions/${sessionID}/fill`, {
+      body,
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
       __security: { apiKeyAuth: true },
@@ -147,24 +145,24 @@ export interface SessionAttachDocumentParams {
   doc_id: number;
 }
 
-export interface SessionFillParams {
+export interface SessionGetMessagesParams {
+  page?: number;
+
+  size?: number;
+}
+
+export interface SessionTriggerFillParams {
   /**
    * `doc_id` of the empty PDF to fill.
    */
   pdf_doc_id: number;
 }
 
-export interface SessionRetrieveMessagesParams {
-  page?: number;
-
-  size?: number;
-}
-
 export declare namespace Sessions {
   export {
     type SessionCreateParams as SessionCreateParams,
     type SessionAttachDocumentParams as SessionAttachDocumentParams,
-    type SessionFillParams as SessionFillParams,
-    type SessionRetrieveMessagesParams as SessionRetrieveMessagesParams,
+    type SessionGetMessagesParams as SessionGetMessagesParams,
+    type SessionTriggerFillParams as SessionTriggerFillParams,
   };
 }

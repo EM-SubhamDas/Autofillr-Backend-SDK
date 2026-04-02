@@ -1,11 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import type { Pdffillr } from '../client';
+import type { EmcBackendSDK } from '../client';
 
 export abstract class APIResource {
-  protected _client: Pdffillr;
+  protected _client: EmcBackendSDK;
 
-  constructor(client: Pdffillr) {
+  constructor(client: EmcBackendSDK) {
     this._client = client;
   }
 }
