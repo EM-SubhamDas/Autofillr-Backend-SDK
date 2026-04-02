@@ -30,32 +30,8 @@ describe('resource notifications', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('getUnreadCount', async () => {
-    const responsePromise = client.sdk.notifications.getUnreadCount();
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Mock server tests are disabled
-  test.skip('markAllAsRead', async () => {
-    const responsePromise = client.sdk.notifications.markAllAsRead();
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Mock server tests are disabled
-  test.skip('markAsRead', async () => {
-    const responsePromise = client.sdk.notifications.markAsRead(0);
+  test.skip('markRead', async () => {
+    const responsePromise = client.sdk.notifications.markRead({});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

@@ -5,5 +5,6 @@ export {
   Sessions,
   type SessionCreateParams,
   type SessionAttachDocumentParams,
+  type SessionFillParams,
   type SessionRetrieveMessagesParams,
 } from './sessions';

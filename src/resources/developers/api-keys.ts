@@ -6,17 +6,13 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
+/**
+ * Register an account, log in, and manage API keys. Start here to get your sk_live_xxx secret key.
+ */
 export class APIKeys extends APIResource {
   /**
-   * Generates a new `pk_live_xxx` / `sk_live_xxx` API key pair under your developer
-   * account.
-   *
-   * **Important:** The `secret_key` is returned **only once** in this response.
-   * Store it immediately in a secure location. It cannot be retrieved again — rotate
-   * the key to get a new one.
-   *
-   * You can create multiple key pairs (e.g. one per environment: development,
-   * staging, production). Use the `name` field to label them.
+   * Generates a new `pk_live_xxx` / `sk_live_xxx` pair. **`secret_key` shown only
+   * once** — store immediately. Use `name` to label per environment.
    *
    * @example
    * ```ts
@@ -33,9 +29,7 @@ export class APIKeys extends APIResource {
   }
 
   /**
-   * Returns all API keys belonging to the authenticated developer. Secret keys are
-   * masked in this response (shown as `sk_live_***...`). Use this to manage and
-   * audit your active keys.
+   * Returns all API keys with secrets masked (`sk_live_***...`).
    *
    * @example
    * ```ts
@@ -51,9 +45,8 @@ export class APIKeys extends APIResource {
   }
 
   /**
-   * Permanently deletes an API key pair. Any active requests using this key will
-   * immediately start receiving `401 Unauthorized` responses. This action cannot be
-   * undone.
+   * Permanently deletes an API key. Requests using this key immediately receive
+   * `401`. Cannot be undone.
    *
    * @example
    * ```ts
@@ -69,13 +62,8 @@ export class APIKeys extends APIResource {
   }
 
   /**
-   * Generates a new secret key for an existing key pair, immediately invalidating
-   * the old secret. The `key_id` and `public_key` remain the same — only the
-   * `sk_live_xxx` secret changes.
-   *
-   * **Important:** The old secret stops working immediately upon rotation. Update
-   * your environment variables with the new secret before rotating in production.
-   * The new secret is returned only once.
+   * Issues a new `sk_live_xxx` secret, immediately invalidating the old one.
+   * `key_id` and `public_key` stay the same. New secret shown only once.
    *
    * @example
    * ```ts
