@@ -19,12 +19,7 @@ export class User extends APIResource {
    * ```
    */
   list(query: UserListParams | null | undefined = {}, options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/v1/sdk/feedback/user', {
-      query,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: { apiKeyAuth: true },
-    });
+    return this._client.get('/v1/sdk/feedback/user', { query, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { apiKeyAuth : true } });
   }
 
   /**
@@ -46,12 +41,7 @@ export class User extends APIResource {
    * ```
    */
   submit(body: UserSubmitParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/v1/sdk/feedback/user', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: { apiKeyAuth: true },
-    });
+    return this._client.post('/v1/sdk/feedback/user', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { apiKeyAuth : true } });
   }
 }
 
@@ -97,5 +87,8 @@ export interface UserSubmitParams {
 }
 
 export declare namespace User {
-  export { type UserListParams as UserListParams, type UserSubmitParams as UserSubmitParams };
+  export {
+    type UserListParams as UserListParams,
+    type UserSubmitParams as UserSubmitParams
+  };
 }

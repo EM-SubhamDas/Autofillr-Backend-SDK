@@ -20,12 +20,7 @@ export class Sessions extends APIResource {
    * ```
    */
   create(body: SessionCreateParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/v1/sdk/chat/sessions', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: { apiKeyAuth: true },
-    });
+    return this._client.post('/v1/sdk/chat/sessions', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { apiKeyAuth : true } });
   }
 
   /**
@@ -38,11 +33,7 @@ export class Sessions extends APIResource {
    * ```
    */
   list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/v1/sdk/chat/sessions', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: { apiKeyAuth: true },
-    });
+    return this._client.get('/v1/sdk/chat/sessions', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { apiKeyAuth : true } });
   }
 
   /**
@@ -56,17 +47,8 @@ export class Sessions extends APIResource {
    * });
    * ```
    */
-  attachDocument(
-    sessionID: string,
-    body: SessionAttachDocumentParams,
-    options?: RequestOptions,
-  ): APIPromise<void> {
-    return this._client.post(path`/v1/sdk/chat/sessions/${sessionID}/attach-document`, {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: { apiKeyAuth: true },
-    });
+  attachDocument(sessionID: string, body: SessionAttachDocumentParams, options?: RequestOptions): APIPromise<void> {
+    return this._client.post(path`/v1/sdk/chat/sessions/${sessionID}/attach-document`, { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { apiKeyAuth : true } });
   }
 
   /**
@@ -79,11 +61,7 @@ export class Sessions extends APIResource {
    * ```
    */
   end(sessionID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/v1/sdk/chat/sessions/${sessionID}/end`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: { apiKeyAuth: true },
-    });
+    return this._client.post(path`/v1/sdk/chat/sessions/${sessionID}/end`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { apiKeyAuth : true } });
   }
 
   /**
@@ -95,17 +73,8 @@ export class Sessions extends APIResource {
    * await client.sdk.chat.sessions.getMessages('sessionId');
    * ```
    */
-  getMessages(
-    sessionID: string,
-    query: SessionGetMessagesParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<void> {
-    return this._client.get(path`/v1/sdk/chat/sessions/${sessionID}/messages`, {
-      query,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: { apiKeyAuth: true },
-    });
+  getMessages(sessionID: string, query: SessionGetMessagesParams | null | undefined = {}, options?: RequestOptions): APIPromise<void> {
+    return this._client.get(path`/v1/sdk/chat/sessions/${sessionID}/messages`, { query, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { apiKeyAuth : true } });
   }
 
   /**
@@ -122,12 +91,7 @@ export class Sessions extends APIResource {
    * ```
    */
   triggerFill(sessionID: string, body: SessionTriggerFillParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/v1/sdk/chat/sessions/${sessionID}/fill`, {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: { apiKeyAuth: true },
-    });
+    return this._client.post(path`/v1/sdk/chat/sessions/${sessionID}/fill`, { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { apiKeyAuth : true } });
   }
 }
 
@@ -163,6 +127,6 @@ export declare namespace Sessions {
     type SessionCreateParams as SessionCreateParams,
     type SessionAttachDocumentParams as SessionAttachDocumentParams,
     type SessionGetMessagesParams as SessionGetMessagesParams,
-    type SessionTriggerFillParams as SessionTriggerFillParams,
+    type SessionTriggerFillParams as SessionTriggerFillParams
   };
 }
