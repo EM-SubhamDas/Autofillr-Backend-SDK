@@ -15,11 +15,15 @@ Feedback.User = User;
 Feedback.FilledPdf = FilledPdf;
 
 export declare namespace Feedback {
-  export { User as User, type UserListParams as UserListParams, type UserSubmitParams as UserSubmitParams };
+  export {
+    User as User,
+    type UserListParams as UserListParams,
+    type UserSubmitParams as UserSubmitParams
+  };
 
   export {
     FilledPdf as FilledPdf,
     type FilledPdfGetVersionHistoryParams as FilledPdfGetVersionHistoryParams,
-    type FilledPdfRecordSaveEventParams as FilledPdfRecordSaveEventParams,
+    type FilledPdfRecordSaveEventParams as FilledPdfRecordSaveEventParams
   };
 }

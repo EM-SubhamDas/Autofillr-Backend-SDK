@@ -26,11 +26,7 @@ export class Developers extends APIResource {
    * ```
    */
   login(body: DeveloperLoginParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/v1/developers/login', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.post('/v1/developers/login', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   /**
@@ -47,11 +43,7 @@ export class Developers extends APIResource {
    * ```
    */
   register(body: DeveloperRegisterParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/v1/developers/register', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.post('/v1/developers/register', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   /**
@@ -64,11 +56,7 @@ export class Developers extends APIResource {
    * ```
    */
   retrieveProfile(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/v1/developers/me', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: { developerSessionAuth: true },
-    });
+    return this._client.get('/v1/developers/me', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { developerSessionAuth : true } });
   }
 }
 
@@ -108,8 +96,11 @@ Developers.APIKeys = APIKeys;
 export declare namespace Developers {
   export {
     type DeveloperLoginParams as DeveloperLoginParams,
-    type DeveloperRegisterParams as DeveloperRegisterParams,
+    type DeveloperRegisterParams as DeveloperRegisterParams
   };
 
-  export { APIKeys as APIKeys, type APIKeyCreateParams as APIKeyCreateParams };
+  export {
+    APIKeys as APIKeys,
+    type APIKeyCreateParams as APIKeyCreateParams
+  };
 }

@@ -22,11 +22,7 @@ export class Docs extends APIResource {
    * ```
    */
   delete(docID: number, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/v1/sdk/docs/${docID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: { apiKeyAuth: true },
-    });
+    return this._client.delete(path`/v1/sdk/docs/${docID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { apiKeyAuth : true } });
   }
 
   /**
@@ -39,11 +35,7 @@ export class Docs extends APIResource {
    * ```
    */
   getMetadata(docID: number, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/v1/sdk/docs/${docID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: { apiKeyAuth: true },
-    });
+    return this._client.get(path`/v1/sdk/docs/${docID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { apiKeyAuth : true } });
   }
 
   /**
@@ -56,11 +48,7 @@ export class Docs extends APIResource {
    * ```
    */
   pollFillResult(pdfID: number, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/v1/sdk/docs/${pdfID}/result`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: { apiKeyAuth: true },
-    });
+    return this._client.get(path`/v1/sdk/docs/${pdfID}/result`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { apiKeyAuth : true } });
   }
 
   /**
@@ -75,18 +63,7 @@ export class Docs extends APIResource {
    * ```
    */
   upload(body: DocUploadParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(
-      '/v1/sdk/docs/upload',
-      multipartFormRequestOptions(
-        {
-          body,
-          ...options,
-          headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-          __security: { apiKeyAuth: true },
-        },
-        this._client,
-      ),
-    );
+    return this._client.post('/v1/sdk/docs/upload', multipartFormRequestOptions({ body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { apiKeyAuth : true } }, this._client));
   }
 
   /**
@@ -103,20 +80,8 @@ export class Docs extends APIResource {
    * ```
    */
   uploadFilledInfo(params: DocUploadFilledInfoParams, options?: RequestOptions): APIPromise<void> {
-    const { pdf_doc_id, ...body } = params;
-    return this._client.post(
-      '/v1/sdk/docs/upload-filled-info',
-      multipartFormRequestOptions(
-        {
-          query: { pdf_doc_id },
-          body,
-          ...options,
-          headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-          __security: { apiKeyAuth: true },
-        },
-        this._client,
-      ),
-    );
+    const { pdf_doc_id, ...body } = params
+    return this._client.post('/v1/sdk/docs/upload-filled-info', multipartFormRequestOptions({ query: { pdf_doc_id }, body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { apiKeyAuth : true } }, this._client));
   }
 }
 
@@ -139,6 +104,6 @@ export interface DocUploadFilledInfoParams {
 export declare namespace Docs {
   export {
     type DocUploadParams as DocUploadParams,
-    type DocUploadFilledInfoParams as DocUploadFilledInfoParams,
+    type DocUploadFilledInfoParams as DocUploadFilledInfoParams
   };
 }

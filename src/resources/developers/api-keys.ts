@@ -20,12 +20,7 @@ export class APIKeys extends APIResource {
    * ```
    */
   create(body: APIKeyCreateParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/v1/developers/api-keys', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: { developerSessionAuth: true },
-    });
+    return this._client.post('/v1/developers/api-keys', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { developerSessionAuth : true } });
   }
 
   /**
@@ -37,11 +32,7 @@ export class APIKeys extends APIResource {
    * ```
    */
   list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/v1/developers/api-keys', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: { developerSessionAuth: true },
-    });
+    return this._client.get('/v1/developers/api-keys', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { developerSessionAuth : true } });
   }
 
   /**
@@ -54,11 +45,7 @@ export class APIKeys extends APIResource {
    * ```
    */
   delete(keyID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/v1/developers/api-keys/${keyID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: { developerSessionAuth: true },
-    });
+    return this._client.delete(path`/v1/developers/api-keys/${keyID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { developerSessionAuth : true } });
   }
 
   /**
@@ -71,11 +58,7 @@ export class APIKeys extends APIResource {
    * ```
    */
   rotate(keyID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/v1/developers/api-keys/${keyID}/rotate`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: { developerSessionAuth: true },
-    });
+    return this._client.post(path`/v1/developers/api-keys/${keyID}/rotate`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { developerSessionAuth : true } });
   }
 }
 
@@ -87,5 +70,7 @@ export interface APIKeyCreateParams {
 }
 
 export declare namespace APIKeys {
-  export { type APIKeyCreateParams as APIKeyCreateParams };
+  export {
+    type APIKeyCreateParams as APIKeyCreateParams
+  };
 }
