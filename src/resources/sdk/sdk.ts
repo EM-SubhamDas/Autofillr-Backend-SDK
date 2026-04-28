@@ -23,24 +23,19 @@ SDK.Feedback = Feedback;
 SDK.Notifications = Notifications;
 
 export declare namespace SDK {
-  export {
-    Chat as Chat,
-    type ChatSendMessageParams as ChatSendMessageParams
-  };
+  export { Chat as Chat, type ChatSendMessageParams as ChatSendMessageParams };
 
   export {
     Docs as Docs,
     type DocUploadParams as DocUploadParams,
-    type DocUploadFilledInfoParams as DocUploadFilledInfoParams
+    type DocUploadFilledInfoParams as DocUploadFilledInfoParams,
   };
 
-  export {
-    Feedback as Feedback
-  };
+  export { Feedback as Feedback };
 
   export {
     Notifications as Notifications,
     type NotificationListParams as NotificationListParams,
-    type NotificationMarkAsReadParams as NotificationMarkAsReadParams
+    type NotificationMarkAsReadParams as NotificationMarkAsReadParams,
   };
 }

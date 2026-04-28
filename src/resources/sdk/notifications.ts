@@ -19,7 +19,12 @@ export class Notifications extends APIResource {
    * ```
    */
   list(query: NotificationListParams | null | undefined = {}, options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/v1/sdk/notifications', { query, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { apiKeyAuth : true } });
+    return this._client.get('/v1/sdk/notifications', {
+      query,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+      __security: { apiKeyAuth: true },
+    });
   }
 
   /**
@@ -32,7 +37,12 @@ export class Notifications extends APIResource {
    * ```
    */
   markAsRead(body: NotificationMarkAsReadParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/v1/sdk/notifications/read', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { apiKeyAuth : true } });
+    return this._client.post('/v1/sdk/notifications/read', {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+      __security: { apiKeyAuth: true },
+    });
   }
 }
 
@@ -52,6 +62,6 @@ export interface NotificationMarkAsReadParams {
 export declare namespace Notifications {
   export {
     type NotificationListParams as NotificationListParams,
-    type NotificationMarkAsReadParams as NotificationMarkAsReadParams
+    type NotificationMarkAsReadParams as NotificationMarkAsReadParams,
   };
 }

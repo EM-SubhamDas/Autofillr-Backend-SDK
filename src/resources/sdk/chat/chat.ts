@@ -2,7 +2,13 @@
 
 import { APIResource } from '../../../core/resource';
 import * as SessionsAPI from './sessions';
-import { SessionAttachDocumentParams, SessionCreateParams, SessionGetMessagesParams, SessionTriggerFillParams, Sessions } from './sessions';
+import {
+  SessionAttachDocumentParams,
+  SessionCreateParams,
+  SessionGetMessagesParams,
+  SessionTriggerFillParams,
+  Sessions,
+} from './sessions';
 import { APIPromise } from '../../../core/api-promise';
 import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
@@ -26,7 +32,12 @@ export class Chat extends APIResource {
    * ```
    */
   sendMessage(body: ChatSendMessageParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/v1/sdk/chat/send', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { apiKeyAuth : true } });
+    return this._client.post('/v1/sdk/chat/send', {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+      __security: { apiKeyAuth: true },
+    });
   }
 }
 
@@ -42,15 +53,13 @@ export interface ChatSendMessageParams {
 Chat.Sessions = Sessions;
 
 export declare namespace Chat {
-  export {
-    type ChatSendMessageParams as ChatSendMessageParams
-  };
+  export { type ChatSendMessageParams as ChatSendMessageParams };
 
   export {
     Sessions as Sessions,
     type SessionCreateParams as SessionCreateParams,
     type SessionAttachDocumentParams as SessionAttachDocumentParams,
     type SessionGetMessagesParams as SessionGetMessagesParams,
-    type SessionTriggerFillParams as SessionTriggerFillParams
+    type SessionTriggerFillParams as SessionTriggerFillParams,
   };
 }

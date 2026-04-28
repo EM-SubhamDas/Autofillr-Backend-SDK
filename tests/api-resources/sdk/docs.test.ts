@@ -5,7 +5,7 @@ import Pdffillr, { toFile } from '@pdffillr/sdk';
 const client = new Pdffillr({
   apiKey: 'My API Key',
   developerJwt: 'My Developer Jwt',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource docs', () => {
@@ -47,7 +47,9 @@ describe('resource docs', () => {
 
   // Mock server tests are disabled
   test.skip('upload: only required params', async () => {
-    const responsePromise = client.sdk.docs.upload({ file: await toFile(Buffer.from('Example data'), 'README.md') });
+    const responsePromise = client.sdk.docs.upload({
+      file: await toFile(Buffer.from('Example data'), 'README.md'),
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -59,12 +61,17 @@ describe('resource docs', () => {
 
   // Mock server tests are disabled
   test.skip('upload: required and optional params', async () => {
-    const response = await client.sdk.docs.upload({ file: await toFile(Buffer.from('Example data'), 'README.md') });
+    const response = await client.sdk.docs.upload({
+      file: await toFile(Buffer.from('Example data'), 'README.md'),
+    });
   });
 
   // Mock server tests are disabled
   test.skip('uploadFilledInfo: only required params', async () => {
-    const responsePromise = client.sdk.docs.uploadFilledInfo({ pdf_doc_id: 0, file: await toFile(Buffer.from('Example data'), 'README.md') });
+    const responsePromise = client.sdk.docs.uploadFilledInfo({
+      pdf_doc_id: 0,
+      file: await toFile(Buffer.from('Example data'), 'README.md'),
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -76,6 +83,9 @@ describe('resource docs', () => {
 
   // Mock server tests are disabled
   test.skip('uploadFilledInfo: required and optional params', async () => {
-    const response = await client.sdk.docs.uploadFilledInfo({ pdf_doc_id: 0, file: await toFile(Buffer.from('Example data'), 'README.md') });
+    const response = await client.sdk.docs.uploadFilledInfo({
+      pdf_doc_id: 0,
+      file: await toFile(Buffer.from('Example data'), 'README.md'),
+    });
   });
 });

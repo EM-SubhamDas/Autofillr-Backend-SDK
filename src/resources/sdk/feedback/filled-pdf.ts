@@ -22,7 +22,12 @@ export class FilledPdf extends APIResource {
    * ```
    */
   getVersionHistory(query: FilledPdfGetVersionHistoryParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/v1/sdk/feedback/filled-pdf', { query, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { apiKeyAuth : true } });
+    return this._client.get('/v1/sdk/feedback/filled-pdf', {
+      query,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+      __security: { apiKeyAuth: true },
+    });
   }
 
   /**
@@ -40,7 +45,12 @@ export class FilledPdf extends APIResource {
    * ```
    */
   recordSaveEvent(body: FilledPdfRecordSaveEventParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/v1/sdk/feedback/filled-pdf', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]), __security: { apiKeyAuth : true } });
+    return this._client.post('/v1/sdk/feedback/filled-pdf', {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+      __security: { apiKeyAuth: true },
+    });
   }
 }
 
@@ -64,6 +74,6 @@ export interface FilledPdfRecordSaveEventParams {
 export declare namespace FilledPdf {
   export {
     type FilledPdfGetVersionHistoryParams as FilledPdfGetVersionHistoryParams,
-    type FilledPdfRecordSaveEventParams as FilledPdfRecordSaveEventParams
+    type FilledPdfRecordSaveEventParams as FilledPdfRecordSaveEventParams,
   };
 }
