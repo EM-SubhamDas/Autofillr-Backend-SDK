@@ -5,7 +5,7 @@ import Pdffillr from '@pdffillr/sdk';
 const client = new Pdffillr({
   apiKey: 'My API Key',
   developerJwt: 'My Developer Jwt',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource apiKeys', () => {
