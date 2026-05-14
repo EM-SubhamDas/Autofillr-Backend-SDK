@@ -55,8 +55,8 @@ export class Developers extends APIResource {
   }
 
   /**
-   * Returns the authenticated developer's profile. Requires `developer-session`
-   * token from `POST /v1/developers/login`.
+   * Returns the authenticated developer's profile. Requires `developerToken` cookie
+   * from `POST /v1/developers/login` or `POST /v1/developers/platform-login`.
    *
    * @example
    * ```ts
@@ -67,21 +67,27 @@ export class Developers extends APIResource {
     return this._client.get('/v1/developers/me', {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: { developerSessionAuth: true },
+      __security: {},
     });
   }
 }
 
 export interface DeveloperLoginParams {
   /**
-   * The email address registered with your developer account.
+   * The email address registered with your platform account.
    */
   email: string;
 
   /**
-   * Your account password.
+   * Your platform account password.
    */
   password: string;
+
+  /**
+   * Must be true to proceed. Confirms acceptance of the Developer Console terms and
+   * conditions.
+   */
+  agreed_to_terms?: boolean;
 }
 
 export interface DeveloperRegisterParams {

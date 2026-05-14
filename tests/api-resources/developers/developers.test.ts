@@ -29,6 +29,7 @@ describe('resource developers', () => {
     const response = await client.developers.login({
       email: 'developer@example.com',
       password: 'MySecurePass123!',
+      agreed_to_terms: true,
     });
   });
 
