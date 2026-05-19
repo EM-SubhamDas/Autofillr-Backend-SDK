@@ -40,6 +40,7 @@ You **must fork** before cloning if you want to contribute. You cannot push dire
 - Click **Create fork**
 
 > **If you already cloned without forking:** don't worry — your local changes are safe. Fork the repo on GitHub, then add your fork as a remote:
+>
 > ```sh
 > git remote add myfork https://github.com/YOUR-USERNAME/Autofillr-Backend-SDK
 > git push myfork feat/your-branch
@@ -59,6 +60,7 @@ yarn install --ignore-scripts
 ```
 
 > **Windows (Git Bash):** If `yarn` is not found, use:
+>
 > ```sh
 > ./node_modules/yarn/bin/yarn install --ignore-scripts
 > ```
@@ -70,6 +72,7 @@ yarn build
 ```
 
 > **Windows (Git Bash):**
+>
 > ```sh
 > ./node_modules/yarn/bin/yarn build
 > ```
