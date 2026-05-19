@@ -24,7 +24,7 @@ export class APIKeys extends APIResource {
       body,
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: {},
+      __security: { developerSessionAuth: true },
     });
   }
 
@@ -40,7 +40,7 @@ export class APIKeys extends APIResource {
     return this._client.get('/v1/developers/api-keys', {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: {},
+      __security: { developerSessionAuth: true },
     });
   }
 
@@ -57,7 +57,7 @@ export class APIKeys extends APIResource {
     return this._client.delete(path`/v1/developers/api-keys/${keyID}`, {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: {},
+      __security: { developerSessionAuth: true },
     });
   }
 
@@ -74,7 +74,7 @@ export class APIKeys extends APIResource {
     return this._client.post(path`/v1/developers/api-keys/${keyID}/rotate`, {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: {},
+      __security: { developerSessionAuth: true },
     });
   }
 }

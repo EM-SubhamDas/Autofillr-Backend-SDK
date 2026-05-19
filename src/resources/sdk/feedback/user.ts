@@ -93,7 +93,22 @@ export interface UserSubmitParams {
   /**
    * Bounding box `{ x1, y1, x2, y2 }` of the field on the page.
    */
-  corners?: unknown;
+  corners?: UserSubmitParams.Corners;
+}
+
+export namespace UserSubmitParams {
+  /**
+   * Bounding box `{ x1, y1, x2, y2 }` of the field on the page.
+   */
+  export interface Corners {
+    x1?: number;
+
+    x2?: number;
+
+    y1?: number;
+
+    y2?: number;
+  }
 }
 
 export declare namespace User {

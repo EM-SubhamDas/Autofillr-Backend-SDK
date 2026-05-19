@@ -29,7 +29,7 @@ export class Developers extends APIResource {
       query,
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: {},
+      __security: { developerSessionAuth: true },
     });
   }
 
@@ -46,7 +46,7 @@ export class Developers extends APIResource {
     return this._client.get('/v1/developers/me/stats', {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: {},
+      __security: { developerSessionAuth: true },
     });
   }
 
@@ -137,7 +137,7 @@ export class Developers extends APIResource {
     return this._client.get('/v1/developers/me', {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-      __security: {},
+      __security: { developerSessionAuth: true },
     });
   }
 }
