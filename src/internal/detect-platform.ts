@@ -13,7 +13,7 @@ export const isRunningInBrowser = () => {
   );
 };
 
-type DetectedPlatform = 'deno' | 'node' | 'edge' | 'unknown';
+type DetectedPlatform = 'deno' | 'node' | 'edge' | 'cloudflare' | 'unknown';
 
 /**
  * Note this does not detect 'browser'; for that, use getBrowserInfo().
@@ -31,6 +31,14 @@ function getDetectedPlatform(): DetectedPlatform {
     ) === '[object process]'
   ) {
     return 'node';
+  }
+  // Cloudflare Workers expose WebSocketPair and caches.default but no process
+  if (
+    typeof (globalThis as any).WebSocketPair !== 'undefined' &&
+    typeof (globalThis as any).caches !== 'undefined' &&
+    typeof (globalThis as any).caches.default !== 'undefined'
+  ) {
+    return 'cloudflare';
   }
   return 'unknown';
 }
@@ -54,7 +62,7 @@ type PlatformProperties = {
   'X-Stainless-Package-Version': string;
   'X-Stainless-OS': PlatformName;
   'X-Stainless-Arch': Arch;
-  'X-Stainless-Runtime': 'node' | 'deno' | 'edge' | `browser:${Browser}` | 'unknown';
+  'X-Stainless-Runtime': 'node' | 'deno' | 'edge' | 'cloudflare' | `browser:${Browser}` | 'unknown';
   'X-Stainless-Runtime-Version': string;
 };
 const getPlatformProperties = (): PlatformProperties => {
@@ -104,7 +112,17 @@ const getPlatformProperties = (): PlatformProperties => {
     };
   }
 
-  // TODO add support for Cloudflare workers, etc.
+  if (detectedPlatform === 'cloudflare') {
+    return {
+      'X-Stainless-Lang': 'js',
+      'X-Stainless-Package-Version': VERSION,
+      'X-Stainless-OS': 'Unknown',
+      'X-Stainless-Arch': 'unknown',
+      'X-Stainless-Runtime': 'cloudflare',
+      'X-Stainless-Runtime-Version': 'unknown',
+    };
+  }
+
   return {
     'X-Stainless-Lang': 'js',
     'X-Stainless-Package-Version': VERSION,
