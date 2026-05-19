@@ -5,8 +5,8 @@ import PdffillrSDK from '@pdffillr/sdk';
 const client = new PdffillrSDK({ apiKey: process.env['PDFFILLR_API_KEY'] });
 
 async function main() {
-  const session = await client.sdk.chat.sessions.create({ 
-    title: 'Test session' 
+  const session = await client.sdk.chat.sessions.create({
+    title: 'Test session',
   });
   console.log(session);
 }
