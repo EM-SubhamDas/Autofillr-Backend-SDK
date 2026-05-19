@@ -17,7 +17,13 @@ import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
-import { DeveloperLoginParams, DeveloperRegisterParams, Developers } from './resources/developers/developers';
+import {
+  DeveloperGetRequestHistoryParams,
+  DeveloperLoginParams,
+  DeveloperPlatformLoginParams,
+  DeveloperRegisterParams,
+  Developers,
+} from './resources/developers/developers';
 import { SDK } from './resources/sdk/sdk';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
@@ -789,7 +795,9 @@ export declare namespace Pdffillr {
 
   export {
     Developers as Developers,
+    type DeveloperGetRequestHistoryParams as DeveloperGetRequestHistoryParams,
     type DeveloperLoginParams as DeveloperLoginParams,
+    type DeveloperPlatformLoginParams as DeveloperPlatformLoginParams,
     type DeveloperRegisterParams as DeveloperRegisterParams,
   };
 }

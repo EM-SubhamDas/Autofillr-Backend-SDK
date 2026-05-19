@@ -14,6 +14,43 @@ export class Developers extends APIResource {
   apiKeys: APIKeysAPI.APIKeys = new APIKeysAPI.APIKeys(this._client);
 
   /**
+   * Returns a paginated list of API request logs, ordered by most recent first.
+   *
+   * @example
+   * ```ts
+   * await client.developers.getRequestHistory();
+   * ```
+   */
+  getRequestHistory(
+    query: DeveloperGetRequestHistoryParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<void> {
+    return this._client.get('/v1/developers/me/requests', {
+      query,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+      __security: {},
+    });
+  }
+
+  /**
+   * Returns active API key count, today's request count (with % change vs
+   * yesterday), quota usage, and security event count for the current month.
+   *
+   * @example
+   * ```ts
+   * await client.developers.getStats();
+   * ```
+   */
+  getStats(options?: RequestOptions): APIPromise<void> {
+    return this._client.get('/v1/developers/me/stats', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+      __security: {},
+    });
+  }
+
+  /**
    * Returns a short-lived `developer-session` JWT for managing API keys. **Not used
    * for SDK API calls** — use `sk_live_xxx` for those.
    *
@@ -27,6 +64,39 @@ export class Developers extends APIResource {
    */
   login(body: DeveloperLoginParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post('/v1/developers/login', {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
+  }
+
+  /**
+   * Clears the `developerToken` HttpOnly cookie. Call this on sign-out.
+   *
+   * @example
+   * ```ts
+   * await client.developers.logout();
+   * ```
+   */
+  logout(options?: RequestOptions): APIPromise<void> {
+    return this._client.post('/v1/developers/logout', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
+  }
+
+  /**
+   * Allows platform users to access the Developer Console using their existing
+   * platform Auth0 token. Automatically creates or links a Developer account — no
+   * separate registration needed.
+   *
+   * @example
+   * ```ts
+   * await client.developers.platformLogin();
+   * ```
+   */
+  platformLogin(body: DeveloperPlatformLoginParams, options?: RequestOptions): APIPromise<void> {
+    return this._client.post('/v1/developers/platform-login', {
       body,
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
@@ -72,6 +142,18 @@ export class Developers extends APIResource {
   }
 }
 
+export interface DeveloperGetRequestHistoryParams {
+  /**
+   * Items per page (default: 20, max: 100)
+   */
+  limit?: number;
+
+  /**
+   * Page number (default: 1)
+   */
+  page?: number;
+}
+
 export interface DeveloperLoginParams {
   /**
    * The email address registered with your platform account.
@@ -88,6 +170,22 @@ export interface DeveloperLoginParams {
    * conditions.
    */
   agreed_to_terms?: boolean;
+}
+
+export interface DeveloperPlatformLoginParams {
+  /**
+   * Platform Auth0 access token. If omitted, the token is read from the
+   * `accessToken` HttpOnly cookie set during platform login — useful when the
+   * frontend cannot access the token directly (e.g. after Google OAuth).
+   */
+  access_token?: string;
+
+  /**
+   * Optional password to set (or update) on your Developer Console account. Once
+   * set, you can also login using your email + this password via POST
+   * /v1/developers/login.
+   */
+  password?: string;
 }
 
 export interface DeveloperRegisterParams {
@@ -113,7 +211,9 @@ Developers.APIKeys = APIKeys;
 
 export declare namespace Developers {
   export {
+    type DeveloperGetRequestHistoryParams as DeveloperGetRequestHistoryParams,
     type DeveloperLoginParams as DeveloperLoginParams,
+    type DeveloperPlatformLoginParams as DeveloperPlatformLoginParams,
     type DeveloperRegisterParams as DeveloperRegisterParams,
   };
 

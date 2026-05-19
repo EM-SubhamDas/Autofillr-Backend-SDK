@@ -54,7 +54,11 @@ Methods:
 
 Methods:
 
+- <code title="get /v1/developers/me/requests">client.developers.<a href="./src/resources/developers/developers.ts">getRequestHistory</a>({ ...params }) -> void</code>
+- <code title="get /v1/developers/me/stats">client.developers.<a href="./src/resources/developers/developers.ts">getStats</a>() -> void</code>
 - <code title="post /v1/developers/login">client.developers.<a href="./src/resources/developers/developers.ts">login</a>({ ...params }) -> void</code>
+- <code title="post /v1/developers/logout">client.developers.<a href="./src/resources/developers/developers.ts">logout</a>() -> void</code>
+- <code title="post /v1/developers/platform-login">client.developers.<a href="./src/resources/developers/developers.ts">platformLogin</a>({ ...params }) -> void</code>
 - <code title="post /v1/developers/register">client.developers.<a href="./src/resources/developers/developers.ts">register</a>({ ...params }) -> void</code>
 - <code title="get /v1/developers/me">client.developers.<a href="./src/resources/developers/developers.ts">retrieveProfile</a>() -> void</code>
 
