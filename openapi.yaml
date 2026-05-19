@@ -122,7 +122,7 @@ paths:
               $ref: '#/components/schemas/SdkFillFromSessionDto'
       responses:
         '201':
-          description: '`{ status: ''queued'', session_id, pdf_doc_id }`. Poll `GET /v1/sdk/docs/{pdf_doc_id}/result`.'
+          description: "`{ status: 'queued', session_id, pdf_doc_id }`. Poll `GET /v1/sdk/docs/{pdf_doc_id}/result`."
         '401':
           description: Missing or invalid API key.
       security: *ref_0
@@ -140,7 +140,7 @@ paths:
             type: string
       responses:
         '201':
-          description: '`{ sessionId, status: ''ended'' }`.'
+          description: "`{ sessionId, status: 'ended' }`."
         '401':
           description: Missing or invalid API key.
       security: *ref_0
