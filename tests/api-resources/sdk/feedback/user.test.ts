@@ -69,8 +69,8 @@ describe('resource user', () => {
       session_id: 'clx9f2k3n0000abc123xyz',
       corners: {
         x1: 120,
-        y1: 340,
         x2: 300,
+        y1: 340,
         y2: 360,
       },
     });
