@@ -1,101 +1,171 @@
+# Contributing to `@pdffillr/sdk`
+
+Thank you for your interest in contributing! This guide will walk you through everything you need to get started.
+
+---
+
+## Table of Contents
+
+- [Requirements](#requirements)
+- [Setting up the environment](#setting-up-the-environment)
+- [Project structure](#project-structure)
+- [Modifying or adding code](#modifying-or-adding-code)
+- [Adding and running examples](#adding-and-running-examples)
+- [Using the repository from source](#using-the-repository-from-source)
+- [Running tests](#running-tests)
+- [Linting and formatting](#linting-and-formatting)
+- [Submitting a pull request](#submitting-a-pull-request)
+- [Publishing and releases](#publishing-and-releases)
+
+---
+
+## Requirements
+
+- [Node.js](https://nodejs.org/) v20+
+- [Yarn v1 (Classic)](https://classic.yarnpkg.com/lang/en/docs/install) — other package managers may work but are not officially supported for development.
+
+---
+
 ## Setting up the environment
 
-This repository uses [`yarn@v1`](https://classic.yarnpkg.com/lang/en/docs/install).
-Other package managers may work but are not officially supported for development.
-
-To set up the repository, run:
+Clone the repository and install dependencies:
 
 ```sh
-$ yarn
-$ yarn build
+git clone https://www.github.com/EM-SubhamDas/Autofillr-Backend-SDK
+cd Autofillr-Backend-SDK
+yarn
+yarn build
 ```
 
-This will install all the required dependencies and build output files to `dist/`.
+This installs all required dependencies and builds output files to `dist/`.
 
-## Modifying/Adding code
+---
 
-Most of the SDK is generated code. Modifications to code will be persisted between generations, but may
-result in merge conflicts between manual patches and changes from the generator. The generator will never
-modify the contents of the `src/lib/` and `examples/` directories.
+## Project structure
+
+```
+src/           # SDK source code (partially generated)
+src/lib/       # Manual code — never modified by the generator
+examples/      # Example scripts — never modified by the generator
+dist/          # Build output
+tests/         # Test suite
+scripts/       # CI and development scripts
+```
+
+---
+
+## Modifying or adding code
+
+Most of the SDK is generated code. Manual modifications will be preserved between generations, but may result in merge conflicts between your patches and generator updates.
+
+> **Safe to edit freely:** `src/lib/` and `examples/` — the generator will never touch these directories.
+
+---
 
 ## Adding and running examples
 
-All files in the `examples/` directory are not modified by the generator and can be freely edited or added to.
+All files in the `examples/` directory are free to edit or add to.
+
+1. Create your example file:
 
 ```ts
-// add an example to examples/<your-example>.ts
-
+// examples/my-example.ts
 #!/usr/bin/env -S npm run tsn -T
-…
+
+import PdffillrSDK from '@pdffillr/sdk';
+
+const client = new PdffillrSDK({ apiKey: process.env['PDFFILLR_API_KEY'] });
+
+// your example code here
 ```
+
+2. Make it executable and run it:
 
 ```sh
-$ chmod +x examples/<your-example>.ts
-# run the example against your api
-$ yarn tsn -T examples/<your-example>.ts
+chmod +x examples/my-example.ts
+yarn tsn -T examples/my-example.ts
 ```
+
+---
 
 ## Using the repository from source
 
-If you’d like to use the repository from source, you can either install from git or link to a cloned repository:
-
-To install via git:
+**Install directly from GitHub:**
 
 ```sh
-$ npm install git+ssh://git@github.com:EM-SubhamDas/Autofillr-Backend-SDK.git
+npm install git+ssh://git@github.com:EM-SubhamDas/Autofillr-Backend-SDK.git
 ```
 
-Alternatively, to link a local copy of the repo:
+**Or link a local clone:**
 
 ```sh
-# Clone
-$ git clone https://www.github.com/EM-SubhamDas/Autofillr-Backend-SDK
-$ cd Autofillr-Backend-SDK
+# Clone and link with yarn
+git clone https://www.github.com/EM-SubhamDas/Autofillr-Backend-SDK
+cd Autofillr-Backend-SDK
+yarn link
+cd ../my-package
+yarn link @pdffillr/sdk
 
-# With yarn
-$ yarn link
-$ cd ../my-package
-$ yarn link @pdffillr/sdk
-
-# With pnpm
-$ pnpm link --global
-$ cd ../my-package
-$ pnpm link --global @pdffillr/sdk
+# Or with pnpm
+pnpm link --global
+cd ../my-package
+pnpm link --global @pdffillr/sdk
 ```
+
+---
 
 ## Running tests
 
 ```sh
-$ yarn run test
+yarn run test
 ```
+
+---
 
 ## Linting and formatting
 
-This repository uses [prettier](https://www.npmjs.com/package/prettier) and
-[eslint](https://www.npmjs.com/package/eslint) to format the code in the repository.
+This repository uses [Prettier](https://www.npmjs.com/package/prettier) and [ESLint](https://www.npmjs.com/package/eslint).
 
-To lint:
-
-```sh
-$ yarn lint
-```
-
-To format and fix all lint issues automatically:
+Check for issues:
 
 ```sh
-$ yarn fix
+yarn lint
 ```
+
+Auto-fix all formatting and lint issues:
+
+```sh
+yarn fix
+```
+
+> Always run `yarn fix` before opening a pull request to avoid CI failures.
+
+---
+
+## Submitting a pull request
+
+1. Fork the repository and create a new branch from `main`:
+   ```sh
+   git checkout -b feat/your-feature-name
+   ```
+2. Make your changes in `src/lib/` or `examples/` (safest areas for manual edits).
+3. Run `yarn fix` to format your code.
+4. Run `yarn run test` to make sure all tests pass.
+5. Push your branch and open a pull request against `main`.
+6. Fill in the PR description explaining what you changed and why.
+
+---
 
 ## Publishing and releases
 
-Changes made to this repository via the automated release PR pipeline should publish to npm automatically. If
-the changes aren't made through the automated pipeline, you may want to make releases manually.
+Changes merged via the automated release PR pipeline publish to npm automatically.
 
-### Publish with a GitHub workflow
+### Publish via GitHub Actions
 
-You can release to package managers by using [the `Publish NPM` GitHub action](https://www.github.com/EM-SubhamDas/Autofillr-Backend-SDK/actions/workflows/publish-npm.yml). This requires a setup organization or repository secret to be set up.
+Use the [Publish NPM workflow](https://www.github.com/EM-SubhamDas/Autofillr-Backend-SDK/actions/workflows/publish-npm.yml). This requires an `NPM_TOKEN` configured as a repository or organization secret.
 
 ### Publish manually
 
-If you need to manually release a package, you can run the `bin/publish-npm` script with an `NPM_TOKEN` set on
-the environment.
+```sh
+NPM_TOKEN=your_token bin/publish-npm
+```
