@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-
 set -e
-
 cd "$(dirname "$0")/.."
+
+echo "==> Running prettier --write"
+./node_modules/.bin/prettier --write .
 
 echo "==> Running eslint"
 ./node_modules/.bin/eslint .
