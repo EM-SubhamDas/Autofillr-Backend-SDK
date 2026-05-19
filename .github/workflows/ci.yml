@@ -31,9 +31,9 @@ jobs:
           node-version: '20'
       - name: Bootstrap
         run: ./scripts/bootstrap
-      - name: Auto-format with Prettier                      # ← added block
+      - name: Auto-format with Prettier
         run: |
-          npx prettier --write "**/*.yaml" "**/*.yml" "**/*.ts" "**/*.json"
+          npx prettier --write "**/*.ts" "**/*.json" "$(find . -name '*.yaml' -o -name '*.yml' | grep -v '.github')"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git diff --quiet || (git add -A && git commit -m "chore: auto-format via prettier" && git push)
