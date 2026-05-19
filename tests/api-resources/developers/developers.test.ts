@@ -10,6 +10,38 @@ const client = new Pdffillr({
 
 describe('resource developers', () => {
   // Mock server tests are disabled
+  test.skip('getRequestHistory', async () => {
+    const responsePromise = client.developers.getRequestHistory();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('getRequestHistory: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.developers.getRequestHistory({ limit: 0, page: 0 }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Pdffillr.NotFoundError);
+  });
+
+  // Mock server tests are disabled
+  test.skip('getStats', async () => {
+    const responsePromise = client.developers.getStats();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
   test.skip('login: only required params', async () => {
     const responsePromise = client.developers.login({
       email: 'developer@example.com',
@@ -29,7 +61,32 @@ describe('resource developers', () => {
     const response = await client.developers.login({
       email: 'developer@example.com',
       password: 'MySecurePass123!',
+      agreed_to_terms: true,
     });
+  });
+
+  // Mock server tests are disabled
+  test.skip('logout', async () => {
+    const responsePromise = client.developers.logout();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('platformLogin', async () => {
+    const responsePromise = client.developers.platformLogin({});
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
   });
 
   // Mock server tests are disabled

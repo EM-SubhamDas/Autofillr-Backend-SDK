@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.4.0 (2026-05-19)
+
+Full Changelog: [v0.3.0...v0.4.0](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/compare/v0.3.0...v0.4.0)
+
+### Features
+
+* **api:** manual updates ([094aa88](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/094aa88eb41f4aa44df48831e5a73082b3f174a4))
+* **api:** manual updates ([f208f53](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/f208f5375534b32aaf892d5a275e6ab261e5588c))
+* **api:** manual updates ([576c874](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/576c87495f9b65f1fcedaff39bce966c4b00ee45))
+* support setting headers via env ([9809895](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/9809895977ce98f5dc6bcd80c9999a7d9e06a6ec))
+
+
+### Bug Fixes
+
+* **typescript:** upgrade tsc-multi so that it works with Node 26 ([dbed1d6](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/dbed1d6cc55fb9d6f7423adbf161b2e757616d35))
+
+
+### Chores
+
+* **format:** run eslint and prettier separately ([3986414](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/3986414a208c3d75891f318e68125a8b3a565ff7))
+* **formatter:** run prettier and eslint separately ([8be8a7d](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/8be8a7d7861dd1383e0228bc6c141d80df12c497))
+* **internal:** codegen related update ([58cbc7a](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/58cbc7a000a692f45c39fa0e9f4973bf4173f873))
+* **internal:** codegen related update ([4cdef57](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/4cdef57e3bd4b6b48c972d4e8c1bee76d8775562))
+* **internal:** codegen related update ([b89afb5](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/b89afb5c15ba624385f204ec32993e8b4473cd89))
+* **internal:** more robust bootstrap script ([5bbef35](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/5bbef3566e6c9cd829e5ae615999ff12dba10b52))
+* redact api-key headers in debug logs ([e7d1e26](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/e7d1e26d9aa80cf24287f51ed550ded3d94ae6f4))
+* **tests:** remove redundant File import ([0be2c90](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/0be2c90a7f619d8a804968bbed88f1837772c8c0))
+
 ## 0.3.0 (2026-04-02)
 
 Full Changelog: [v0.2.0...v0.3.0](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/compare/v0.2.0...v0.3.0)
