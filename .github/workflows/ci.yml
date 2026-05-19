@@ -20,11 +20,12 @@ jobs:
     runs-on: ${{ github.repository == 'stainless-sdks/emc-backend-sdk-typescript' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
     if: (github.event_name == 'push' || github.event.pull_request.head.repo.fork) && (github.event_name != 'push' || github.event.head_commit.message != 'codegen metadata')
     permissions:
-      contents: write                                         # ← added
+      contents: write # ← added
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          ref: ${{ github.head_ref || github.ref_name }}     # ← added
+          ref: ${{ github.head_ref || github.ref_name }}
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
@@ -33,10 +34,12 @@ jobs:
         run: ./scripts/bootstrap
       - name: Auto-format with Prettier
         run: |
-          npx prettier --write "**/*.ts" "**/*.json" "$(find . -name '*.yaml' -o -name '*.yml' | grep -v '.github')"
+          npx prettier --write .
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git diff --quiet || (git add -A && git commit -m "chore: auto-format via prettier" && git push)
+          if [ "${{ github.event.pull_request.head.repo.fork }}" != "true" ]; then
+            git diff --quiet || (git add -A && git commit -m "chore: auto-format via prettier" && git push)
+          fi
       - name: Check types
         run: ./scripts/lint
   build:

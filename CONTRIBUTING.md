@@ -24,20 +24,66 @@ Thank you for your interest in contributing! This guide will walk you through ev
 - [Node.js](https://nodejs.org/) v20+
 - [Yarn v1 (Classic)](https://classic.yarnpkg.com/lang/en/docs/install) — other package managers may work but are not officially supported for development.
 
+> **Windows users:** Use [Git Bash](https://git-scm.com/downloads) to run all commands — the build scripts are bash-based and will not work in CMD or PowerShell.
+
 ---
 
 ## Setting up the environment
 
-Clone the repository and install dependencies:
+### Step 1 — Fork the repository
+
+You **must fork** before cloning if you want to contribute. You cannot push directly to this repository without write access.
+
+- Go to `https://github.com/EM-SubhamDas/Autofillr-Backend-SDK`
+- Click **Fork** (top right)
+- Select your GitHub account as the owner
+- Click **Create fork**
+
+> **If you already cloned without forking:** don't worry — your local changes are safe. Fork the repo on GitHub, then add your fork as a remote:
+>
+> ```sh
+> git remote add myfork https://github.com/YOUR-USERNAME/Autofillr-Backend-SDK
+> git push myfork feat/your-branch
+> ```
+
+### Step 2 — Clone your fork
 
 ```sh
-git clone https://www.github.com/EM-SubhamDas/Autofillr-Backend-SDK
+git clone https://github.com/YOUR-USERNAME/Autofillr-Backend-SDK
 cd Autofillr-Backend-SDK
-yarn
+```
+
+### Step 3 — Install dependencies
+
+```sh
+yarn install --ignore-scripts
+```
+
+> **Windows (Git Bash):** If `yarn` is not found, use:
+>
+> ```sh
+> ./node_modules/yarn/bin/yarn install --ignore-scripts
+> ```
+
+### Step 4 — Build
+
+```sh
 yarn build
 ```
 
-This installs all required dependencies and builds output files to `dist/`.
+> **Windows (Git Bash):**
+>
+> ```sh
+> ./node_modules/yarn/bin/yarn build
+> ```
+
+Verify the build succeeded by checking the `dist/` folder was created:
+
+```sh
+ls dist/
+```
+
+You should see files like `index.js`, `index.mjs`, `index.d.ts`.
 
 ---
 
@@ -76,7 +122,12 @@ import PdffillrSDK from '@pdffillr/sdk';
 
 const client = new PdffillrSDK({ apiKey: process.env['PDFFILLR_API_KEY'] });
 
-// your example code here
+async function main() {
+  const session = await client.sdk.chat.sessions.create({ title: 'Test session' });
+  console.log(session);
+}
+
+main();
 ```
 
 2. Make it executable and run it:
@@ -144,15 +195,46 @@ yarn fix
 
 ## Submitting a pull request
 
-1. Fork the repository and create a new branch from `main`:
+### First time contributing
+
+1. Fork the repository (see [Setting up the environment](#setting-up-the-environment))
+2. Clone your fork locally
+3. Create a new branch — never work directly on `main`:
    ```sh
    git checkout -b feat/your-feature-name
    ```
-2. Make your changes in `src/lib/` or `examples/` (safest areas for manual edits).
-3. Run `yarn fix` to format your code.
-4. Run `yarn run test` to make sure all tests pass.
-5. Push your branch and open a pull request against `main`.
-6. Fill in the PR description explaining what you changed and why.
+4. Make your changes in `src/lib/` or `examples/`
+5. Run `yarn fix` to auto-format your code
+6. Run `yarn run test` to make sure all tests pass
+7. Commit and push to **your fork**:
+   ```sh
+   git add .
+   git commit -m "feat: describe your change"
+   git push origin feat/your-feature-name
+   ```
+8. Go to `https://github.com/YOUR-USERNAME/Autofillr-Backend-SDK`
+9. Click **Compare & pull request**
+10. Make sure the base is `EM-SubhamDas/Autofillr-Backend-SDK` → `main`
+11. Fill in what you changed and why, then click **Create pull request**
+
+### Subsequent contributions (fork already exists)
+
+Keep your fork up to date before starting new work:
+
+```sh
+git remote add upstream https://github.com/EM-SubhamDas/Autofillr-Backend-SDK
+git fetch upstream
+git merge upstream/main
+```
+
+Then create a new branch and follow steps 3–11 above.
+
+### What happens after you open a PR
+
+- CI runs automatically (lint → build → tests)
+- A maintainer reviews your changes
+- Once approved and all checks pass, the maintainer merges it
+- **Nothing enters the main branch without maintainer approval** — your PR can never auto-merge
 
 ---
 
