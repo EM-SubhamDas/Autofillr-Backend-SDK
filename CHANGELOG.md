@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.5.0 (2026-07-18)
+
+Full Changelog: [v0.4.1...v0.5.0](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/compare/v0.4.1...v0.5.0)
+
+### Features
+
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([a0c6018](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/a0c6018be70c2654a2b059adf45dbbaefdc736e2))
+
+
+### Bug Fixes
+
+* **ci:** bump @arethetypeswrong/cli to ^0.18.0 and run CI workflows on Node 24 ([fbebe7f](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/fbebe7f2dca9f34fbe8b935f37c5ec89f9afb2d7))
+* **client:** send content-type header for requests with an omitted optional body ([c5f45c8](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/c5f45c8f5dbe1c501b2ac30b95c890dac8947cff))
+
+
+### Chores
+
+* **internal:** codegen related update ([cf1ead4](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/cf1ead4abdce43293e427f9f0ca3ab0681fa2a8a))
+* **internal:** codegen related update ([7925749](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/commit/7925749bf18dd2e34359f09418c038762a4bb4f0))
+
 ## 0.4.1 (2026-05-19)
 
 Full Changelog: [v0.4.0...v0.4.1](https://github.com/EM-SubhamDas/Autofillr-Backend-SDK/compare/v0.4.0...v0.4.1)
